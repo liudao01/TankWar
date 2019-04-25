@@ -1,7 +1,5 @@
 package com.liuml.tank;
 
-import com.liuml.tank.util.LogUtils;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -78,11 +76,10 @@ public class TankFrame extends Frame {
             if (bD) {
                 y += 30;
             }
+
             if (x < 0) {
                 x = 0;
             }
-            LogUtils.debug("x = " + x);
-            LogUtils.debug("y = " + y);
             if (x > 800 - 50) {
                 x = 800 - 50;
             }
