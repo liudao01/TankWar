@@ -11,6 +11,7 @@ public class TankFrame extends Frame {
     int x = 200;
     int y = 200;
 
+
     public TankFrame() {
         // TODO Auto-generated constructor stub
         setSize(800, 600);
@@ -37,15 +38,55 @@ public class TankFrame extends Frame {
     }
 
     class MykeyListener extends KeyAdapter {
+
+        boolean bL = false;
+        boolean bU = false;
+        boolean bR = false;
+        boolean bD = false;
+        //根据方向 处理坦克的坐标
+
         @Override
         public void keyPressed(KeyEvent e) {
-            x = x + 30;
-            y = y + 30;
+
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    bL = true;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = true;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = true;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = true;
+                    break;
+                default:
+                    break;
+            }
+
             repaint();
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    bL = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = false;
+                    break;
+                default:
+                    break;
+            }
+
 
         }
     }
