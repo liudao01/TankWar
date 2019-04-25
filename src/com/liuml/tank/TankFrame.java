@@ -8,9 +8,15 @@ import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
 
-    int x = 200;
-    int y = 200;
+    int x = 100;
+    int y = 100;
 
+    int speed = 3;//速度
+    Direction direciton;
+    boolean bL = false;
+    boolean bU = false;
+    boolean bR = false;
+    boolean bD = false;
 
     public TankFrame() {
         // TODO Auto-generated constructor stub
@@ -35,21 +41,96 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics graphics) {
         graphics.fillRect(x, y, 50, 50);
+        getDireciton();
+
+    }
+
+    //根据方向 处理坦克的坐标
+    private void getDireciton() {
+        if (bL) {
+            direciton = Direction.LEFT;
+        }
+        if (bU) {
+            direciton = Direction.UP;
+        }
+        if (bR) {
+            direciton = Direction.RIGHT;
+        }
+        if (bD) {
+            direciton = Direction.DOWN;
+        }
+        if (bL && bU) {
+            direciton = Direction.LEFT_UP;
+        }
+        if (bL && bD) {
+            direciton = Direction.LEFT_DOWN;
+        }
+        if (bR && bU) {
+            direciton = Direction.RIGHT_UP;
+        }
+        if (bR && bD) {
+            direciton = Direction.RIGHT_DOWN;
+        }
+
+        move();
+    }
+
+    private void move() {
+        switch (direciton) {
+            case UP:
+                y -= speed;
+                break;
+            case DOWN:
+                y += speed;
+                break;
+            case LEFT:
+                x -= speed;
+                break;
+            case RIGHT:
+                x += speed;
+                break;
+            case LEFT_UP:
+                y -= speed;
+                x -= speed;
+                break;
+            case LEFT_DOWN:
+                x -= speed;
+                y += speed;
+                break;
+            case RIGHT_UP:
+                y -= speed;
+                x += speed;
+                break;
+            case RIGHT_DOWN:
+                x += speed;
+                y += speed;
+                break;
+
+
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (x > 800 - 50) {
+            x = 800 - 50;
+        }
+        if (y < 20) {
+            y = 20;
+        }
+        if (y > 600 - 50) {
+            y = 600 - 50;
+        }
     }
 
     class MykeyListener extends KeyAdapter {
 
-        boolean bL = false;
-        boolean bU = false;
-        boolean bR = false;
-        boolean bD = false;
-        //根据方向 处理坦克的坐标
 
         @Override
         public void keyPressed(KeyEvent e) {
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+
                     bL = true;
                     break;
                 case KeyEvent.VK_UP:
@@ -64,34 +145,13 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-            if (bL) {
-                x -= 30;
-            }
-            if (bU) {
-                y -= 30;
-            }
-            if (bR) {
-                x += 30;
-            }
-            if (bD) {
-                y += 30;
-            }
+            getDireciton();
 
-            if (x < 0) {
-                x = 0;
-            }
-            if (x > 800 - 50) {
-                x = 800 - 50;
-            }
-            if (y < 0) {
-                y = 0;
-            }
-            if (y > 600 - 50) {
-                y = 600-50;
-            }
+
 
             repaint();
         }
+
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -110,6 +170,18 @@ public class TankFrame extends Frame {
                     break;
                 default:
                     break;
+            }
+            if (bL) {
+                x -= speed;
+            }
+            if (bU) {
+                y -= speed;
+            }
+            if (bR) {
+                x += speed;
+            }
+            if (bD) {
+                y += speed;
             }
 
 
