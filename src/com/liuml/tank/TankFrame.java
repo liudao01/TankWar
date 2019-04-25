@@ -64,7 +64,18 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-
+            if (bL) {
+                x-=30;
+            }
+            if (bU) {
+                y-=30;
+            }
+            if (bR) {
+                x+=30;
+            }
+            if (bD) {
+                y+=30;
+            }
             repaint();
         }
 
