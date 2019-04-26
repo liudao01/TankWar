@@ -76,37 +76,37 @@ public class TankFrame extends Frame {
     }
 
     private void move() {
-        switch (direciton) {
-            case UP:
-                y -= speed;
-                break;
-            case DOWN:
-                y += speed;
-                break;
-            case LEFT:
-                x -= speed;
-                break;
-            case RIGHT:
-                x += speed;
-                break;
-            case LEFT_UP:
-                y -= speed;
-                x -= speed;
-                break;
-            case LEFT_DOWN:
-                x -= speed;
-                y += speed;
-                break;
-            case RIGHT_UP:
-                y -= speed;
-                x += speed;
-                break;
-            case RIGHT_DOWN:
-                x += speed;
-                y += speed;
-                break;
-
-
+        if (direciton != null) {
+            switch (direciton) {
+                case UP:
+                    y -= speed;
+                    break;
+                case DOWN:
+                    y += speed;
+                    break;
+                case LEFT:
+                    x -= speed;
+                    break;
+                case RIGHT:
+                    x += speed;
+                    break;
+                case LEFT_UP:
+                    y -= speed;
+                    x -= speed;
+                    break;
+                case LEFT_DOWN:
+                    x -= speed;
+                    y += speed;
+                    break;
+                case RIGHT_UP:
+                    y -= speed;
+                    x += speed;
+                    break;
+                case RIGHT_DOWN:
+                    x += speed;
+                    y += speed;
+                    break;
+            }
         }
         if (x < 0) {
             x = 0;
@@ -142,13 +142,13 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:
                     bD = true;
                     break;
+                case KeyEvent.VK_SPACE:
+                    direciton = null;
+                    break;
                 default:
                     break;
             }
             getDireciton();
-
-
-
             repaint();
         }
 
