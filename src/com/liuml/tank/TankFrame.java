@@ -8,11 +8,7 @@ import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
 
-    int x = 100;
-    int y = 100;
-
-    int speed = 5;//速度
-    Direction direciton;
+    Tank tank = new Tank();
 
 
     public TankFrame() {
@@ -32,61 +28,15 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
+
     }
 
 
     @Override
     public void paint(Graphics graphics) {
-        graphics.fillRect(x, y, 50, 50);
-        move();
+        tank.paint(graphics);
+    }
 
-    }
-    private void move() {
-        if (direciton != null) {
-            switch (direciton) {
-                case UP:
-                    y -= speed;
-                    break;
-                case DOWN:
-                    y += speed;
-                    break;
-                case LEFT:
-                    x -= speed;
-                    break;
-                case RIGHT:
-                    x += speed;
-                    break;
-                case LEFT_UP:
-                    y -= speed;
-                    x -= speed;
-                    break;
-                case LEFT_DOWN:
-                    x -= speed;
-                    y += speed;
-                    break;
-                case RIGHT_UP:
-                    y -= speed;
-                    x += speed;
-                    break;
-                case RIGHT_DOWN:
-                    x += speed;
-                    y += speed;
-                    break;
-            }
-        }
-        if (x < 0) {
-            x = 0;
-        }
-        if (x > 800 - 50) {
-            x = 800 - 50;
-        }
-        if (y < 20) {
-            y = 20;
-        }
-        if (y > 600 - 50) {
-            y = 600 - 50;
-        }
-    }
 
     class MykeyListener extends KeyAdapter {
         boolean bL = false;
@@ -99,7 +49,6 @@ public class TankFrame extends Frame {
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-
                     bL = true;
                     break;
                 case KeyEvent.VK_UP:
@@ -111,14 +60,10 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:
                     bD = true;
                     break;
-                case KeyEvent.VK_SPACE:
-                    direciton = null;
-                    break;
                 default:
                     break;
             }
             getDireciton();
-            repaint();
         }
 
 
@@ -140,39 +85,42 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-
-
+            getDireciton();
         }
 
 
         //根据方向 处理坦克的坐标
         private void getDireciton() {
+            if (!bL && !bD && !bR && !bU) {
+                tank.isMoveing = false;
+            } else {
+                tank.isMoveing = true;
+            }
             if (bL) {
-                direciton = Direction.LEFT;
+                tank.direciton = Direction.LEFT;
             }
             if (bU) {
-                direciton = Direction.UP;
+                tank.direciton = Direction.UP;
             }
             if (bR) {
-                direciton = Direction.RIGHT;
+                tank.direciton = Direction.RIGHT;
             }
             if (bD) {
-                direciton = Direction.DOWN;
+                tank.direciton = Direction.DOWN;
             }
             if (bL && bU) {
-                direciton = Direction.LEFT_UP;
+                tank.direciton = Direction.LEFT_UP;
             }
             if (bL && bD) {
-                direciton = Direction.LEFT_DOWN;
+                tank.direciton = Direction.LEFT_DOWN;
             }
             if (bR && bU) {
-                direciton = Direction.RIGHT_UP;
+                tank.direciton = Direction.RIGHT_UP;
             }
             if (bR && bD) {
-                direciton = Direction.RIGHT_DOWN;
+                tank.direciton = Direction.RIGHT_DOWN;
             }
 
-            move();
         }
 
 
