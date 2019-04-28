@@ -39,12 +39,13 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-        tank = new Tank(x, y, Direction.RIGHT, this);
+        tank = new Tank(x, y, null, this);
     }
 
     Image offScreenImage = null;
     @Override
     public void update(Graphics g) {
+        //双缓冲
         if(offScreenImage == null) {
             offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         }
