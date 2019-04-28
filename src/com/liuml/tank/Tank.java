@@ -15,6 +15,8 @@ public class Tank {
     private Direction direciton;//方向
     public boolean isMoveing = true;//是否移动
     private TankFrame tankFrame = null;
+    private int tankType;
+    private boolean live = true;//是否存活
 
     public Tank(int x, int y, Direction direciton, TankFrame tankFrame) {
         this.x = x;
@@ -41,12 +43,12 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(x, y, direciton,tankFrame));
+        tankFrame.bulletList.add(new Bullet(x, y, direciton, tankFrame));
     }
 
 
     private void move() {
-//        LogUtils.debug("isMoveing = "+isMoveing);
+
         if (!isMoveing) {
             return;
         }
