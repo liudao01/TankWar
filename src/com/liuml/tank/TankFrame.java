@@ -1,23 +1,34 @@
 package com.liuml.tank;
 
+
+import com.liuml.tank.util.LogUtils;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankFrame extends Frame {
 
-    Tank tank = new Tank();
-
+    private int x = 200;
+    private int y = 200;
+    private static final int FRAME_WIDTH = 800;
+    private static final int FRAME_HEITHT = 600;
+    private Tank tank;
+    private Bullet bullet;
+     List<Bullet> bulletList = new ArrayList<Bullet>();;
 
     public TankFrame() {
+
+
         // TODO Auto-generated constructor stub
-        setSize(800, 600);
+        setSize(FRAME_WIDTH, FRAME_HEITHT);
         setResizable(false);
         setTitle("tank war");
         setVisible(true);
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -28,13 +39,15 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-
+        tank = new Tank(x, y, Direction.RIGHT, this);
     }
-
 
     @Override
     public void paint(Graphics graphics) {
         tank.paint(graphics);
+        for (int i = 0; i < bulletList.size(); i++) {
+            bulletList.get(i).paint(graphics);
+        }
     }
 
 
@@ -82,6 +95,10 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:
                     bD = false;
                     break;
+                case KeyEvent.VK_CONTROL:
+                    LogUtils.debug("按下发射");
+                    tank.fire();
+                    break;
                 default:
                     break;
             }
@@ -92,33 +109,34 @@ public class TankFrame extends Frame {
         //根据方向 处理坦克的坐标
         private void getDireciton() {
             if (!bL && !bD && !bR && !bU) {
-                tank.isMoveing = false;
+                tank.setMoveing(false);
             } else {
-                tank.isMoveing = true;
+                tank.setMoveing(true);
             }
             if (bL) {
-                tank.direciton = Direction.LEFT;
+                tank.setDireciton(Direction.LEFT);
             }
             if (bU) {
-                tank.direciton = Direction.UP;
+                tank.setDireciton(Direction.UP);
+
             }
             if (bR) {
-                tank.direciton = Direction.RIGHT;
+                tank.setDireciton(Direction.RIGHT);
             }
             if (bD) {
-                tank.direciton = Direction.DOWN;
+                tank.setDireciton(Direction.DOWN);
             }
             if (bL && bU) {
-                tank.direciton = Direction.LEFT_UP;
+                tank.setDireciton(Direction.LEFT_UP);
             }
             if (bL && bD) {
-                tank.direciton = Direction.LEFT_DOWN;
+                tank.setDireciton(Direction.LEFT_DOWN);
             }
             if (bR && bU) {
-                tank.direciton = Direction.RIGHT_UP;
+                tank.setDireciton(Direction.RIGHT_UP);
             }
             if (bR && bD) {
-                tank.direciton = Direction.RIGHT_DOWN;
+                tank.setDireciton(Direction.RIGHT_DOWN);
             }
 
         }
