@@ -11,12 +11,9 @@ public class TankFrame extends Frame {
     int x = 100;
     int y = 100;
 
-    int speed = 3;//速度
+    int speed = 5;//速度
     Direction direciton;
-    boolean bL = false;
-    boolean bU = false;
-    boolean bR = false;
-    boolean bD = false;
+
 
     public TankFrame() {
         // TODO Auto-generated constructor stub
@@ -41,40 +38,9 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics graphics) {
         graphics.fillRect(x, y, 50, 50);
-        getDireciton();
-
-    }
-
-    //根据方向 处理坦克的坐标
-    private void getDireciton() {
-        if (bL) {
-            direciton = Direction.LEFT;
-        }
-        if (bU) {
-            direciton = Direction.UP;
-        }
-        if (bR) {
-            direciton = Direction.RIGHT;
-        }
-        if (bD) {
-            direciton = Direction.DOWN;
-        }
-        if (bL && bU) {
-            direciton = Direction.LEFT_UP;
-        }
-        if (bL && bD) {
-            direciton = Direction.LEFT_DOWN;
-        }
-        if (bR && bU) {
-            direciton = Direction.RIGHT_UP;
-        }
-        if (bR && bD) {
-            direciton = Direction.RIGHT_DOWN;
-        }
-
         move();
-    }
 
+    }
     private void move() {
         if (direciton != null) {
             switch (direciton) {
@@ -123,7 +89,10 @@ public class TankFrame extends Frame {
     }
 
     class MykeyListener extends KeyAdapter {
-
+        boolean bL = false;
+        boolean bU = false;
+        boolean bR = false;
+        boolean bD = false;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -171,21 +140,42 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-            if (bL) {
-                x -= speed;
-            }
-            if (bU) {
-                y -= speed;
-            }
-            if (bR) {
-                x += speed;
-            }
-            if (bD) {
-                y += speed;
-            }
 
 
         }
+
+
+        //根据方向 处理坦克的坐标
+        private void getDireciton() {
+            if (bL) {
+                direciton = Direction.LEFT;
+            }
+            if (bU) {
+                direciton = Direction.UP;
+            }
+            if (bR) {
+                direciton = Direction.RIGHT;
+            }
+            if (bD) {
+                direciton = Direction.DOWN;
+            }
+            if (bL && bU) {
+                direciton = Direction.LEFT_UP;
+            }
+            if (bL && bD) {
+                direciton = Direction.LEFT_DOWN;
+            }
+            if (bR && bU) {
+                direciton = Direction.RIGHT_UP;
+            }
+            if (bR && bD) {
+                direciton = Direction.RIGHT_DOWN;
+            }
+
+            move();
+        }
+
+
     }
 
 }
