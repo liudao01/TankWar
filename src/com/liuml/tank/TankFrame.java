@@ -93,7 +93,7 @@ public class TankFrame extends Frame {
                     int ty = tankList.get(j).getY();
                     LogUtils.debug("坦克 =  tx = " + tx + "  ty = " + ty);
                     if (bx + Constant.BulletWidth > tx && by + Constant.BulletHeight > ty && bx < tx + Constant.tankWidth && by < ty + Constant.tankHeight) {
-                        tankList.get(i).setLive(false);
+                        tankList.get(j).setLive(false);
                     }
                 }
 
