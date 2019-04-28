@@ -1,5 +1,7 @@
 package com.liuml.tank;
 
+import com.liuml.tank.util.Constant;
+
 import java.awt.*;
 
 /**
@@ -46,7 +48,7 @@ public class Bullet {
         }
         Color color = graphics.getColor();
         graphics.setColor(Color.blue);
-        graphics.fillOval(x, y, 20, 20);
+        graphics.fillOval(x, y, Constant.BulletWidth, Constant.BulletHeight);
         move();
         graphics.setColor(color);
     }

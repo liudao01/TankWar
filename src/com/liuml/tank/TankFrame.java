@@ -1,6 +1,7 @@
 package com.liuml.tank;
 
 
+import com.liuml.tank.util.Constant;
 import com.liuml.tank.util.LogUtils;
 import com.liuml.tank.util.RandomUtil;
 
@@ -69,14 +70,37 @@ public class TankFrame extends Frame {
         graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
         graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
         graphics.setColor(color);
+        checkCollision();
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(graphics);
         }
         for (int i = 0; i < tankList.size(); i++) {
             tankList.get(i).paint(graphics);
         }
+
     }
 
+    //碰撞检测
+    private void checkCollision() {
+        //TODO 明天用个算法把. 今天先把功能实现
+        for (int i = 0; i < bulletList.size(); i++) {
+            for (int j = 0; j < tankList.size(); j++) {
+                int bx = bulletList.get(i).getX();
+                int by = bulletList.get(i).getY();
+                LogUtils.debug("bx = " + bx + "  by = " + by);
+                if (tankList.get(j).isLive()) {
+                    int tx = tankList.get(j).getX();
+                    int ty = tankList.get(j).getY();
+                    LogUtils.debug("坦克 =  tx = " + tx + "  ty = " + ty);
+                    if (bx + Constant.BulletWidth > tx && by + Constant.BulletHeight > ty && bx < tx + Constant.tankWidth && by < ty + Constant.tankHeight) {
+                        tankList.get(i).setLive(false);
+                    }
+                }
+
+            }
+
+        }
+    }
 
     class MykeyListener extends KeyAdapter {
         boolean bL = false;
@@ -126,7 +150,6 @@ public class TankFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    LogUtils.debug("按下发射");
                     tank.fire();
                     break;
                 default:

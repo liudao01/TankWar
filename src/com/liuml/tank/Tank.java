@@ -1,5 +1,7 @@
 package com.liuml.tank;
 
+import com.liuml.tank.util.Constant;
+
 import java.awt.*;
 
 /**
@@ -18,6 +20,7 @@ public class Tank {
     private int tankType;
     private boolean live = true;//是否存活
 
+
     public Tank(int x, int y, Direction direciton, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
@@ -25,18 +28,39 @@ public class Tank {
         this.tankFrame = tankFrame;
     }
 
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
     public void setDireciton(Direction direciton) {
         this.direciton = direciton;
     }
 
     public void paint(Graphics graphics) {
+        if (!isLive()) {
+            tankFrame.tankList.remove(this);
+        }
         Color color = graphics.getColor();
         graphics.setColor(Color.RED);
-        graphics.fillRect(x, y, 50, 50);
+        graphics.fillRect(x, y, Constant.tankWidth, Constant.tankHeight);
 
         move();
         graphics.setColor(color);
     }
+
 
     public void setMoveing(boolean moveing) {
         isMoveing = moveing;
@@ -96,5 +120,6 @@ public class Tank {
         if (y > 600 - 50) {
             y = 600 - 50;
         }
+        //进行碰撞检测
     }
 }
