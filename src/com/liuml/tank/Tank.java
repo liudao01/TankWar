@@ -28,8 +28,12 @@ public class Tank {
     }
 
     public void paint(Graphics graphics) {
+        Color color = graphics.getColor();
+        graphics.setColor(Color.RED);
         graphics.fillRect(x, y, 50, 50);
+
         move();
+        graphics.setColor(color);
     }
 
     public void setMoveing(boolean moveing) {
@@ -37,8 +41,7 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(x,y,direciton));
-
+        tankFrame.bulletList.add(new Bullet(x, y, direciton,tankFrame));
     }
 
 

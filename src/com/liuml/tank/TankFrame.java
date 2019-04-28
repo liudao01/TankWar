@@ -15,8 +15,8 @@ public class TankFrame extends Frame {
 
     private int x = 200;
     private int y = 200;
-    private static final int FRAME_WIDTH = 800;
-    private static final int FRAME_HEITHT = 600;
+    public static final int GAME_WIDTH = 800;
+    public static final int GAME_HEIGHT = 600;
     private Tank tank;
     private Bullet bullet;
      List<Bullet> bulletList = new ArrayList<Bullet>();;
@@ -25,7 +25,7 @@ public class TankFrame extends Frame {
 
 
         // TODO Auto-generated constructor stub
-        setSize(FRAME_WIDTH, FRAME_HEITHT);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
         setTitle("tank war");
         setVisible(true);
@@ -42,9 +42,27 @@ public class TankFrame extends Frame {
         tank = new Tank(x, y, Direction.RIGHT, this);
     }
 
+    Image offScreenImage = null;
+    @Override
+    public void update(Graphics g) {
+        if(offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.setColor(c);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
     @Override
     public void paint(Graphics graphics) {
         tank.paint(graphics);
+        Color color = graphics.getColor();
+        graphics.setColor(Color.RED);
+        graphics.drawString("当前子弹个数"+bulletList.size(),50,50);
+        graphics.setColor(color);
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(graphics);
         }

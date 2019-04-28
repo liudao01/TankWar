@@ -9,20 +9,25 @@ import java.awt.*;
  */
 public class Bullet {
 
-    int x = 100;
-    int y = 100;
+    private int x = 100;
+    private int y = 100;
 
-    int speed = 30;//速度
-    Direction direciton;
+    private int speed = 30;//速度
+    private Direction direciton;
+    private TankFrame tankFrame;
+    private boolean live = true;//是否存活
 
-
-    public Bullet(int x, int y, Direction direciton) {
+    public Bullet(int x, int y, Direction direciton, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.direciton = direciton;
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics graphics) {
+        if (!live) {
+            tankFrame.bulletList.remove(this);
+        }
         Color color = graphics.getColor();
         graphics.setColor(Color.blue);
         graphics.fillOval(x, y, 20, 20);
@@ -64,17 +69,9 @@ public class Bullet {
                     break;
             }
         }
-//        if (x < 0) {
-//            x = 0;
-//        }
-//        if (x > 800 - 50) {
-//            x = 800 - 50;
-//        }
-//        if (y < 20) {
-//            y = 20;
-//        }
-//        if (y > 600 - 50) {
-//            y = 600 - 50;
-//        }
+        if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
+            live = false;
+        }
+
     }
 }
