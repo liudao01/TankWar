@@ -2,7 +2,6 @@ package com.liuml.tank;
 
 
 import com.liuml.tank.util.Constant;
-import com.liuml.tank.util.LogUtils;
 import com.liuml.tank.util.RandomUtil;
 
 import java.awt.*;
@@ -42,7 +41,7 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-        tank = new Tank(x, y, null, this);
+        tank = new Tank(x, y, null, Constant.MyTank, this);
     }
 
     Image offScreenImage = null;
@@ -82,16 +81,16 @@ public class TankFrame extends Frame {
 
     //碰撞检测
     private void checkCollision() {
-        //TODO 明天用个算法把. 今天先把功能实现
+        //TODO 感觉可以用个算法. 今天先把功能实现
         for (int i = 0; i < bulletList.size(); i++) {
+            int bx = bulletList.get(i).getX();
+            int by = bulletList.get(i).getY();
             for (int j = 0; j < tankList.size(); j++) {
-                int bx = bulletList.get(i).getX();
-                int by = bulletList.get(i).getY();
-                LogUtils.debug("bx = " + bx + "  by = " + by);
+                //LogUtils.debug("bx = " + bx + "  by = " + by);
                 if (tankList.get(j).isLive()) {
                     int tx = tankList.get(j).getX();
                     int ty = tankList.get(j).getY();
-                    LogUtils.debug("坦克 =  tx = " + tx + "  ty = " + ty);
+//                    LogUtils.debug("坦克 =  tx = " + tx + "  ty = " + ty);
                     if (bx + Constant.BulletWidth > tx && by + Constant.BulletHeight > ty && bx < tx + Constant.tankWidth && by < ty + Constant.tankHeight) {
                         tankList.get(j).setLive(false);
                     }
@@ -125,7 +124,7 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_ENTER:
-                    tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), null, tankFrame));
+                    tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), null, Constant.EnemyTank, tankFrame));
                     break;
                 default:
                     break;

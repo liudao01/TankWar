@@ -17,13 +17,14 @@ public class Tank {
     private Direction direciton;//方向
     public boolean isMoveing = true;//是否移动
     private TankFrame tankFrame = null;
-    private int tankType;
+    private int tankType;//坦克的类型 我方,敌方,友方
     private boolean live = true;//是否存活
 
 
-    public Tank(int x, int y, Direction direciton, TankFrame tankFrame) {
+    public Tank(int x, int y, Direction direciton, int tankType, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
+        this.tankType = tankType;
         this.direciton = direciton;
         this.tankFrame = tankFrame;
     }
@@ -54,7 +55,13 @@ public class Tank {
             tankFrame.tankList.remove(this);
         }
         Color color = graphics.getColor();
-        graphics.setColor(Color.RED);
+        if (tankType == Constant.MyTank) {
+            graphics.setColor(Color.orange);
+
+        } else {
+
+            graphics.setColor(Color.RED);
+        }
         graphics.fillRect(x, y, Constant.tankWidth, Constant.tankHeight);
 
         move();
