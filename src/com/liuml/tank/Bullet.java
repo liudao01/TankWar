@@ -13,11 +13,12 @@ public class Bullet {
 
     private int x = 100;
     private int y = 100;
-
+    public static int WIDTH = ResourceMgr.bulletD.getWidth();
+    public static int HEIGHT = ResourceMgr.bulletD.getHeight();
     private int speed = 30;//速度
     private Direction direciton;
     private TankFrame tankFrame;
-    private boolean live = true;//是否存活
+    private boolean living = true;//是否存活
 
     public Bullet(int x, int y, Direction direciton, TankFrame tankFrame) {
         this.x = x;
@@ -43,7 +44,7 @@ public class Bullet {
     }
 
     public void paint(Graphics graphics) {
-        if (!live) {
+        if (!living) {
             tankFrame.bulletList.remove(this);
         }
         Color color = graphics.getColor();
@@ -88,8 +89,27 @@ public class Bullet {
             }
         }
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
-            live = false;
+            living = false;
         }
 
+    }
+
+
+    //碰撞检测
+    public void collisionWith(Tank tank) {
+
+        //TODO: 用一个rect来记录子弹的位置
+        Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
+
+        if(rect1.intersects(rect2)) {
+            tank.die();
+            this.die();
+        }
+
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

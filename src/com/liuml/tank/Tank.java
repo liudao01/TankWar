@@ -1,7 +1,5 @@
 package com.liuml.tank;
 
-import com.liuml.tank.util.Constant;
-
 import java.awt.*;
 
 /**
@@ -10,15 +8,17 @@ import java.awt.*;
  * Created time 2019/4/28.
  */
 public class Tank {
+    public static final int WIDTH = ResourceMgr.tankD.getWidth();
+    public static final int HEIGHT = ResourceMgr.tankD.getHeight();
     private int x = 100;
     private int y = 100;
 
     private int speed = 5;//速度
-    private Direction direciton;//方向
-    public boolean isMoveing = true;//是否移动
+    private Direction direciton = Direction.DOWN;//方向
+    public boolean isMoveing = false;//是否移动
     private TankFrame tankFrame = null;
     private int tankType;//坦克的类型 我方,敌方,友方
-    private boolean live = true;//是否存活
+    private boolean living = true;//是否存活
 
 
     public Tank(int x, int y, Direction direciton, int tankType, TankFrame tankFrame) {
@@ -38,34 +38,51 @@ public class Tank {
         return y;
     }
 
-    public boolean isLive() {
-        return live;
+    public boolean isLiving() {
+        return living;
     }
 
-    public void setLive(boolean live) {
-        this.live = live;
-    }
 
     public void setDireciton(Direction direciton) {
         this.direciton = direciton;
     }
 
     public void paint(Graphics graphics) {
-        if (!isLive()) {
+        if (!isLiving()) {
             tankFrame.tankList.remove(this);
         }
-        Color color = graphics.getColor();
-        if (tankType == Constant.MyTank) {
-            graphics.setColor(Color.orange);
+        if (direciton == null) return;
+        switch (direciton) {
+            case UP:
+                graphics.drawImage(ResourceMgr.tankU, x, y, null);
+                break;
+            case DOWN:
+                graphics.drawImage(ResourceMgr.tankD, x, y, null);
+                break;
+            case LEFT:
+                graphics.drawImage(ResourceMgr.tankL, x, y, null);
+                break;
+            case RIGHT:
+                graphics.drawImage(ResourceMgr.tankR, x, y, null);
+                break;
+            case LEFT_UP:
+                graphics.drawImage(ResourceMgr.tankLU, x, y, null);
+                break;
+            case LEFT_DOWN:
 
-        } else {
-
-            graphics.setColor(Color.RED);
+                graphics.drawImage(ResourceMgr.tankLD, x, y, null);
+                break;
+            case RIGHT_UP:
+                graphics.drawImage(ResourceMgr.tankRU, x, y, null);
+                break;
+            case RIGHT_DOWN:
+                graphics.drawImage(ResourceMgr.tankRD, x, y, null);
+                break;
         }
-        graphics.fillRect(x, y, Constant.tankWidth, Constant.tankHeight);
+
 
         move();
-        graphics.setColor(color);
+//        graphics.setColor(color);
     }
 
 
@@ -127,6 +144,10 @@ public class Tank {
         if (y > 600 - 50) {
             y = 600 - 50;
         }
-        //进行碰撞检测
+
+    }
+
+    public void die() {
+        living = false;
     }
 }

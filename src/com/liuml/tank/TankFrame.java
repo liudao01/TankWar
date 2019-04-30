@@ -41,7 +41,7 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-        tank = new Tank(x, y, null, Constant.MyTank, this);
+        tank = new Tank(x, y, Direction.DOWN, Constant.MyTank, this);
     }
 
     Image offScreenImage = null;
@@ -69,7 +69,7 @@ public class TankFrame extends Frame {
         graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
         graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
         graphics.setColor(color);
-        checkCollision();
+
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(graphics);
         }
@@ -77,25 +77,17 @@ public class TankFrame extends Frame {
             tankList.get(i).paint(graphics);
         }
 
+        checkCollision();
+
     }
 
     //碰撞检测
     private void checkCollision() {
-        //TODO 感觉可以用个算法. 今天先把功能实现
         for (int i = 0; i < bulletList.size(); i++) {
-            int bx = bulletList.get(i).getX();
-            int by = bulletList.get(i).getY();
             for (int j = 0; j < tankList.size(); j++) {
-                //LogUtils.debug("bx = " + bx + "  by = " + by);
-                if (tankList.get(j).isLive()) {
-                    int tx = tankList.get(j).getX();
-                    int ty = tankList.get(j).getY();
-//                    LogUtils.debug("坦克 =  tx = " + tx + "  ty = " + ty);
-                    if (bx + Constant.BulletWidth > tx && by + Constant.BulletHeight > ty && bx < tx + Constant.tankWidth && by < ty + Constant.tankHeight) {
-                        tankList.get(j).setLive(false);
-                    }
+                if (tankList.get(j).isLiving()) {
+                    bulletList.get(i).collisionWith(tankList.get(j));
                 }
-
             }
 
         }
