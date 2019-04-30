@@ -1,16 +1,19 @@
 package com.liuml.tank;
 
 
-import com.liuml.tank.util.Constant;
-import com.liuml.tank.util.RandomUtil;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.liuml.tank.util.Constant;
+import com.liuml.tank.util.RandomUtil;
 
 public class TankFrame extends Frame {
 
@@ -20,7 +23,7 @@ public class TankFrame extends Frame {
     public static final int GAME_HEIGHT = 600;
     private Tank tank;
     List<Bullet> bulletList = new ArrayList<Bullet>();
-    List<Tank> tankList = new ArrayList<>();
+    List<Tank> tankList = new ArrayList<Tank>();
     TankFrame tankFrame;
 
     public TankFrame() {
@@ -63,18 +66,22 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        tank.paint(graphics);
-        Color color = graphics.getColor();
-        graphics.setColor(Color.GREEN);
-        graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
-        graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
-        graphics.setColor(color);
-        checkCollision();
-        for (int i = 0; i < bulletList.size(); i++) {
-            bulletList.get(i).paint(graphics);
-        }
-        for (int i = 0; i < tankList.size(); i++) {
-            tankList.get(i).paint(graphics);
+        if (tank != null) {
+
+
+            tank.paint(graphics);
+            Color color = graphics.getColor();
+            graphics.setColor(Color.GREEN);
+            graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
+            graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
+            graphics.setColor(color);
+            checkCollision();
+            for (int i = 0; i < bulletList.size(); i++) {
+                bulletList.get(i).paint(graphics);
+            }
+            for (int i = 0; i < tankList.size(); i++) {
+                tankList.get(i).paint(graphics);
+            }
         }
 
     }
@@ -124,7 +131,8 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_ENTER:
-                    tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), null, Constant.EnemyTank, tankFrame));
+                    tankList.add(new Tank(RandomUtil.getRandomWidth(), RandomUtil.getRandomHeight(), null, Constant.EnemyTank,
+                        tankFrame));
                     break;
                 default:
                     break;
