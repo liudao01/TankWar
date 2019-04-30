@@ -17,14 +17,14 @@ public class Tank {
     private Direction direciton = Direction.DOWN;//方向
     public boolean isMoveing = false;//是否移动
     private TankFrame tankFrame = null;
-    private int tankType;//坦克的类型 我方,敌方,友方
+    private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
 
 
-    public Tank(int x, int y, Direction direciton, int tankType, TankFrame tankFrame) {
+    public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
-        this.tankType = tankType;
+        this.tankGroup = tankType;
         this.direciton = direciton;
         this.tankFrame = tankFrame;
     }
@@ -69,7 +69,6 @@ public class Tank {
                 graphics.drawImage(ResourceMgr.tankLU, x, y, null);
                 break;
             case LEFT_DOWN:
-
                 graphics.drawImage(ResourceMgr.tankLD, x, y, null);
                 break;
             case RIGHT_UP:
@@ -91,7 +90,11 @@ public class Tank {
     }
 
     public void fire() {
-        tankFrame.bulletList.add(new Bullet(x, y, direciton, tankFrame));
+
+        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
+        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
+
+        tankFrame.bulletList.add(new Bullet(bX, bY, direciton, tankGroup, tankFrame));
     }
 
 

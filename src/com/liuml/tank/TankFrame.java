@@ -1,7 +1,6 @@
 package com.liuml.tank;
 
 
-import com.liuml.tank.util.Constant;
 import com.liuml.tank.util.RandomUtil;
 
 import java.awt.*;
@@ -41,7 +40,7 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-        tank = new Tank(x, y, Direction.DOWN, Constant.MyTank, this);
+        tank = new Tank(x, y, Direction.DOWN, TankGroup.MYTANK, this);
     }
 
     Image offScreenImage = null;
@@ -63,21 +62,23 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-        tank.paint(graphics);
-        Color color = graphics.getColor();
-        graphics.setColor(Color.GREEN);
-        graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
-        graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
-        graphics.setColor(color);
+        if (tank != null) {
+            tank.paint(graphics);
+            Color color = graphics.getColor();
+            graphics.setColor(Color.GREEN);
+            graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
+            graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
+            graphics.setColor(color);
 
-        for (int i = 0; i < bulletList.size(); i++) {
-            bulletList.get(i).paint(graphics);
-        }
-        for (int i = 0; i < tankList.size(); i++) {
-            tankList.get(i).paint(graphics);
+            for (int i = 0; i < bulletList.size(); i++) {
+                bulletList.get(i).paint(graphics);
+            }
+            for (int i = 0; i < tankList.size(); i++) {
+                tankList.get(i).paint(graphics);
+            }
+            checkCollision();
         }
 
-        checkCollision();
 
     }
 
@@ -89,7 +90,6 @@ public class TankFrame extends Frame {
                     bulletList.get(i).collisionWith(tankList.get(j));
                 }
             }
-
         }
     }
 
@@ -116,7 +116,7 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_ENTER:
-                    tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), null, Constant.EnemyTank, tankFrame));
+                    tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN, TankGroup.Enemy, tankFrame));
                     break;
                 default:
                     break;

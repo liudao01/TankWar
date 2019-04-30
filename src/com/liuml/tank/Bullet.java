@@ -1,7 +1,5 @@
 package com.liuml.tank;
 
-import com.liuml.tank.util.Constant;
-
 import java.awt.*;
 
 /**
@@ -19,10 +17,12 @@ public class Bullet {
     private Direction direciton;
     private TankFrame tankFrame;
     private boolean living = true;//是否存活
+    private TankGroup group;
 
-    public Bullet(int x, int y, Direction direciton, TankFrame tankFrame) {
+    public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
+        this.group = group;
         this.direciton = direciton;
         this.tankFrame = tankFrame;
     }
@@ -47,11 +47,34 @@ public class Bullet {
         if (!living) {
             tankFrame.bulletList.remove(this);
         }
-        Color color = graphics.getColor();
-        graphics.setColor(Color.blue);
-        graphics.fillOval(x, y, Constant.BulletWidth, Constant.BulletHeight);
+        if (direciton == null) return;
+        switch (direciton) {
+            case UP:
+                graphics.drawImage(ResourceMgr.bulletU, x, y, null);
+                break;
+            case DOWN:
+                graphics.drawImage(ResourceMgr.bulletD, x, y, null);
+                break;
+            case LEFT:
+                graphics.drawImage(ResourceMgr.bulletL, x, y, null);
+                break;
+            case RIGHT:
+                graphics.drawImage(ResourceMgr.bulletR, x, y, null);
+                break;
+            case LEFT_UP:
+                graphics.drawImage(ResourceMgr.bulletLU, x, y, null);
+                break;
+            case LEFT_DOWN:
+                graphics.drawImage(ResourceMgr.bulletLD, x, y, null);
+                break;
+            case RIGHT_UP:
+                graphics.drawImage(ResourceMgr.bulletRU, x, y, null);
+                break;
+            case RIGHT_DOWN:
+                graphics.drawImage(ResourceMgr.bulletRD, x, y, null);
+                break;
+        }
         move();
-        graphics.setColor(color);
     }
 
     private void move() {
@@ -88,6 +111,7 @@ public class Bullet {
                     break;
             }
         }
+        //屏幕外 销毁
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
             living = false;
         }
@@ -102,7 +126,7 @@ public class Bullet {
         Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
         Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
 
-        if(rect1.intersects(rect2)) {
+        if (rect1.intersects(rect2)) {
             tank.die();
             this.die();
         }
