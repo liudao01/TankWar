@@ -20,6 +20,7 @@ public class TankFrame extends Frame {
     private Tank tank;
     List<Bullet> bulletList = new ArrayList<Bullet>();
     List<Tank> tankList = new ArrayList<>();
+    List<Explode> explodes = new ArrayList<>();
     TankFrame tankFrame;
 
     public TankFrame() {

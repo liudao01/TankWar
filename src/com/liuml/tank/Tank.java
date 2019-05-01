@@ -1,6 +1,10 @@
 package com.liuml.tank;
 
+import com.liuml.tank.util.RandomUtil;
+
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 坦克类
@@ -15,10 +19,11 @@ public class Tank {
 
     private int speed = 5;//速度
     private Direction direciton = Direction.DOWN;//方向
-    public boolean isMoveing = false;//是否移动
+    public boolean isMoveing = true;//是否移动
     private TankFrame tankFrame = null;
     private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
+    Timer timer = new Timer();
 
 
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
@@ -27,6 +32,9 @@ public class Tank {
         this.tankGroup = tankType;
         this.direciton = direciton;
         this.tankFrame = tankFrame;
+        if (tankGroup.equals(TankGroup.Enemy)) {
+            timer.schedule(new TimerTaskTest(), 1000, 2000);
+        }
     }
 
 
@@ -52,6 +60,10 @@ public class Tank {
             tankFrame.tankList.remove(this);
         }
         if (direciton == null) return;
+        //如果敌方坦克 方向随机移动
+        if (this.tankGroup.equals(TankGroup.Enemy)) {
+
+        }
         switch (direciton) {
             case UP:
                 graphics.drawImage(ResourceMgr.tankU, x, y, null);
@@ -84,6 +96,44 @@ public class Tank {
 //        graphics.setColor(color);
     }
 
+    class TimerTaskTest extends TimerTask {
+
+        @Override
+        public void run() {
+
+            changeDircition();
+        }
+    }
+
+    public void changeDircition() {
+        switch (RandomUtil.getRandomForIntegerBounded(0, 7)) {
+            case 0:
+                direciton = Direction.UP;
+                break;
+            case 1:
+                direciton = Direction.DOWN;
+                break;
+            case 2:
+                direciton = Direction.LEFT;
+                break;
+            case 3:
+                direciton = Direction.RIGHT;
+                break;
+            case 4:
+                direciton = Direction.LEFT_UP;
+                break;
+            case 5:
+                direciton = Direction.LEFT_DOWN;
+                break;
+            case 6:
+                direciton = Direction.RIGHT_UP;
+                break;
+            case 7:
+                direciton = Direction.RIGHT_DOWN;
+                break;
+        }
+    }
+
 
     public void setMoveing(boolean moveing) {
         isMoveing = moveing;
@@ -91,8 +141,8 @@ public class Tank {
 
     public void fire() {
 
-        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
-        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
+        int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
+        int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
 
         tankFrame.bulletList.add(new Bullet(bX, bY, direciton, tankGroup, tankFrame));
     }
@@ -152,5 +202,9 @@ public class Tank {
 
     public void die() {
         living = false;
+    }
+
+    public void explode() {
+
     }
 }
