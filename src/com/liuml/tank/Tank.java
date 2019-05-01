@@ -107,7 +107,6 @@ public class Tank {
                 if (tankGroup == TankGroup.MYTANK) {
                     graphics.drawImage(ResourceMgr.MainTankLU, x, y, null);
                 } else {
-
                     graphics.drawImage(ResourceMgr.tankLU, x, y, null);
                 }
                 break;
