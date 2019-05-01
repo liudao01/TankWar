@@ -62,6 +62,7 @@ public class Tank {
     public void paint(Graphics graphics) {
         if (!isLiving()) {
             tankFrame.tankList.remove(this);
+            return;
         }
         if (direciton == null) return;
         //如果敌方坦克 随机发射子弹
@@ -72,34 +73,71 @@ public class Tank {
         }
         switch (direciton) {
             case UP:
-                graphics.drawImage(ResourceMgr.tankU, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankUp, x, y, null);
+                } else {
+
+                    graphics.drawImage(ResourceMgr.tankU, x, y, null);
+                }
                 break;
             case DOWN:
-                graphics.drawImage(ResourceMgr.tankD, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankDown, x, y, null);
+
+                } else {
+
+                    graphics.drawImage(ResourceMgr.tankD, x, y, null);
+                }
                 break;
             case LEFT:
-                graphics.drawImage(ResourceMgr.tankL, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankLeft, x, y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.tankL, x, y, null);
+                }
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceMgr.tankR, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankRight, x, y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.tankR, x, y, null);
+                }
                 break;
             case LEFT_UP:
-                graphics.drawImage(ResourceMgr.tankLU, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankLU, x, y, null);
+                } else {
+
+                    graphics.drawImage(ResourceMgr.tankLU, x, y, null);
+                }
                 break;
             case LEFT_DOWN:
-                graphics.drawImage(ResourceMgr.tankLD, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankLD, x, y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.tankLD, x, y, null);
+                }
                 break;
             case RIGHT_UP:
-                graphics.drawImage(ResourceMgr.tankRU, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankRU, x, y, null);
+                } else {
+
+                    graphics.drawImage(ResourceMgr.tankRU, x, y, null);
+                }
                 break;
             case RIGHT_DOWN:
-                graphics.drawImage(ResourceMgr.tankRD, x, y, null);
+                if (tankGroup == TankGroup.MYTANK) {
+                    graphics.drawImage(ResourceMgr.MainTankRD, x, y, null);
+                } else {
+                    graphics.drawImage(ResourceMgr.tankRD, x, y, null);
+                }
                 break;
         }
 
 
         move();
-//        graphics.setColor(color);
+
     }
 
     class TimerTaskTest extends TimerTask {
@@ -205,8 +243,17 @@ public class Tank {
 
     }
 
+    /**
+     * 复活
+     */
+    public void Resurrection() {
+        living = true;
+    }
+
     public void die() {
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
         living = false;
     }
 

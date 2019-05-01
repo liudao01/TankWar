@@ -65,14 +65,19 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-
+        Color color = graphics.getColor();
         if (tank != null) {
-            tank.paint(graphics);
-            Color color = graphics.getColor();
+            if (!tank.isLiving()) {
+                graphics.setColor(Color.GREEN);
+                graphics.drawString("你挂了-- 按下F1 复活", 300, 300);
+            } else {
+                tank.paint(graphics);
+            }
+
             graphics.setColor(Color.GREEN);
-            graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
-            graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
-            graphics.drawString("爆炸集合 " + explodes.size(), 50, 90);
+            graphics.drawString("当前子弹个数" + bulletList.size(), 20, 50);
+            graphics.drawString("按下回车添加敌方坦克-当前敌方坦克个数" + tankList.size(), 20, 70);
+            graphics.drawString("爆炸集合 " + explodes.size(), 20, 90);
             graphics.setColor(color);
 
             for (int i = 0; i < bulletList.size(); i++) {
@@ -98,15 +103,17 @@ public class TankFrame extends Frame {
                     //如果子弹和坦克不是同一队伍才检测
                     if (bulletList.get(i).getGroup() != tankList.get(j).getTankGroup()) {
                         bulletList.get(i).collisionWith(tankList.get(j));
-
                     }
-                    // tankFrame.explodes.add(explode);
                 }
             }
-            boolean b = bulletList.get(i).collisionWith(tank);
-            if (b) {
-                tank.die();
+            //如果子弹和坦克不是同一队伍才检测
+            if (bulletList.get(i).getGroup() != tank.getTankGroup() && tank.isLiving()) {
+                boolean b = bulletList.get(i).collisionWith(tank);
+                if (b) {
+                    tank.die();
+                }
             }
+
         }
     }
 
@@ -134,6 +141,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_ENTER:
                     tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN, TankGroup.Enemy, tankFrame));
+                    break;
+                case KeyEvent.VK_F1:
+                    tank.Resurrection();
                     break;
                 default:
                     break;
@@ -179,7 +189,6 @@ public class TankFrame extends Frame {
             }
             if (bU) {
                 tank.setDireciton(Direction.UP);
-
             }
             if (bR) {
                 tank.setDireciton(Direction.RIGHT);
