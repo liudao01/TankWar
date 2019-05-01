@@ -64,9 +64,11 @@ public class Tank {
             tankFrame.tankList.remove(this);
         }
         if (direciton == null) return;
-        //如果敌方坦克 方向随机移动
+        //如果敌方坦克 随机发射子弹
         if (this.tankGroup.equals(TankGroup.Enemy)) {
-
+            if (RandomUtil.getRandomForIntegerBounded(0, 10) > 5) {
+                fire();
+            }
         }
         switch (direciton) {
             case UP:
@@ -104,7 +106,6 @@ public class Tank {
 
         @Override
         public void run() {
-
             changeDircition();
         }
     }
@@ -205,6 +206,7 @@ public class Tank {
     }
 
     public void die() {
+        timer.cancel();
         living = false;
     }
 

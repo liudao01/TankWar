@@ -17,7 +17,7 @@ public class TankFrame extends Frame {
     private int y = 200;
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
-    private Tank tank;
+    private Tank tank;//主角坦克
     List<Bullet> bulletList = new ArrayList<Bullet>();
     List<Tank> tankList = new ArrayList<>();
     List<Explode> explodes = new ArrayList<>();
@@ -84,20 +84,28 @@ public class TankFrame extends Frame {
             for (int i = 0; i < explodes.size(); i++) {
                 explodes.get(i).paint(graphics);
             }
-            checkCollision(graphics);
+            checkCollision();
         }
 
 
     }
 
     //碰撞检测
-    private void checkCollision(Graphics graphics) {
+    private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++) {
                 if (tankList.get(j).isLiving()) {
-                    boolean b = bulletList.get(i).collisionWith(tankList.get(j));
+                    //如果子弹和坦克不是同一队伍才检测
+                    if (bulletList.get(i).getGroup() != tankList.get(j).getTankGroup()) {
+                        bulletList.get(i).collisionWith(tankList.get(j));
+
+                    }
                     // tankFrame.explodes.add(explode);
                 }
+            }
+            boolean b = bulletList.get(i).collisionWith(tank);
+            if (b) {
+                tank.die();
             }
         }
     }

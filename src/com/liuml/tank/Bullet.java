@@ -43,6 +43,10 @@ public class Bullet {
         this.y = y;
     }
 
+    public TankGroup getGroup() {
+        return group;
+    }
+
     public void paint(Graphics graphics) {
         if (!living) {
             tankFrame.bulletList.remove(this);

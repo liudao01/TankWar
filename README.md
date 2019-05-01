@@ -11,6 +11,9 @@ TankWar
 
 [TOC]
 
+http://www.aigei.com/view/72035.html
+资源
+
 # 实现画出坦克.  
 
 作业: 根据四个boolean值，计算坦克方向，根据坦克方向和速度，自动移动位置。（假设坦克不能停）
