@@ -55,6 +55,10 @@ public class Tank {
         this.direciton = direciton;
     }
 
+    public TankGroup getTankGroup() {
+        return tankGroup;
+    }
+
     public void paint(Graphics graphics) {
         if (!isLiving()) {
             tankFrame.tankList.remove(this);
@@ -204,7 +208,4 @@ public class Tank {
         living = false;
     }
 
-    public void explode() {
-
-    }
 }

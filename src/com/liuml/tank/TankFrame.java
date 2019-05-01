@@ -22,6 +22,8 @@ public class TankFrame extends Frame {
     List<Tank> tankList = new ArrayList<>();
     List<Explode> explodes = new ArrayList<>();
     TankFrame tankFrame;
+    private Explode explode;
+
 
     public TankFrame() {
 
@@ -63,12 +65,14 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
+
         if (tank != null) {
             tank.paint(graphics);
             Color color = graphics.getColor();
             graphics.setColor(Color.GREEN);
             graphics.drawString("当前子弹个数" + bulletList.size(), 50, 50);
             graphics.drawString("当前敌方坦克个数" + tankList.size(), 50, 70);
+            graphics.drawString("爆炸集合 " + explodes.size(), 50, 90);
             graphics.setColor(color);
 
             for (int i = 0; i < bulletList.size(); i++) {
@@ -77,18 +81,22 @@ public class TankFrame extends Frame {
             for (int i = 0; i < tankList.size(); i++) {
                 tankList.get(i).paint(graphics);
             }
-            checkCollision();
+            for (int i = 0; i < explodes.size(); i++) {
+                explodes.get(i).paint(graphics);
+            }
+            checkCollision(graphics);
         }
 
 
     }
 
     //碰撞检测
-    private void checkCollision() {
+    private void checkCollision(Graphics graphics) {
         for (int i = 0; i < bulletList.size(); i++) {
             for (int j = 0; j < tankList.size(); j++) {
                 if (tankList.get(j).isLiving()) {
-                    bulletList.get(i).collisionWith(tankList.get(j));
+                    boolean b = bulletList.get(i).collisionWith(tankList.get(j));
+                    // tankFrame.explodes.add(explode);
                 }
             }
         }

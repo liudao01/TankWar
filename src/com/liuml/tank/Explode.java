@@ -29,11 +29,11 @@ public class Explode {
 
 
     public void paint(Graphics graphics) {
-        graphics.drawImage(ResourceMgr.explodes[step++], x, y, null);
-
         if (step >= ResourceMgr.explodes.length) {
+            die();
             return;
         }
+        graphics.drawImage(ResourceMgr.explodes[step++], x, y, null);
     }
 
 
@@ -41,5 +41,6 @@ public class Explode {
 
     private void die() {
         this.living = false;
+        tankFrame.explodes.remove(this);
     }
 }
