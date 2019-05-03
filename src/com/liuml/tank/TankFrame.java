@@ -185,28 +185,28 @@ public class TankFrame extends Frame {
                 tank.setMoveing(true);
             }
             if (bL) {
-                tank.setDireciton(Direction.LEFT);
+                tank.setDirection(Direction.LEFT);
             }
             if (bU) {
-                tank.setDireciton(Direction.UP);
+                tank.setDirection(Direction.UP);
             }
             if (bR) {
-                tank.setDireciton(Direction.RIGHT);
+                tank.setDirection(Direction.RIGHT);
             }
             if (bD) {
-                tank.setDireciton(Direction.DOWN);
+                tank.setDirection(Direction.DOWN);
             }
             if (bL && bU) {
-                tank.setDireciton(Direction.LEFT_UP);
+                tank.setDirection(Direction.LEFT_UP);
             }
             if (bL && bD) {
-                tank.setDireciton(Direction.LEFT_DOWN);
+                tank.setDirection(Direction.LEFT_DOWN);
             }
             if (bR && bU) {
-                tank.setDireciton(Direction.RIGHT_UP);
+                tank.setDirection(Direction.RIGHT_UP);
             }
             if (bR && bD) {
-                tank.setDireciton(Direction.RIGHT_DOWN);
+                tank.setDirection(Direction.RIGHT_DOWN);
             }
 
         }

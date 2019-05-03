@@ -18,7 +18,7 @@ public class Tank {
     private int y = 100;
 
     private int speed = 5;//速度
-    private Direction direciton = Direction.DOWN;//方向
+    private Direction direction = Direction.DOWN;//方向
     public boolean isMoveing = true;//是否移动
     private TankFrame tankFrame = null;
     private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
@@ -30,7 +30,7 @@ public class Tank {
         this.x = x;
         this.y = y;
         this.tankGroup = tankType;
-        this.direciton = direciton;
+        this.direction = direciton;
         this.tankFrame = tankFrame;
         if (tankGroup.equals(TankGroup.Enemy)) {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
@@ -51,8 +51,8 @@ public class Tank {
     }
 
 
-    public void setDireciton(Direction direciton) {
-        this.direciton = direciton;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public TankGroup getTankGroup() {
@@ -64,14 +64,14 @@ public class Tank {
             tankFrame.tankList.remove(this);
             return;
         }
-        if (direciton == null) return;
+        if (direction == null) return;
         //如果敌方坦克 随机发射子弹
         if (this.tankGroup.equals(TankGroup.Enemy)) {
             if (RandomUtil.getRandomForIntegerBounded(0, 10) > 5) {
                 fire();
             }
         }
-        switch (direciton) {
+        switch (direction) {
             case UP:
                 if (tankGroup == TankGroup.MYTANK) {
                     graphics.drawImage(ResourceMgr.MainTankUp, x, y, null);
@@ -150,28 +150,28 @@ public class Tank {
     public void changeDircition() {
         switch (RandomUtil.getRandomForIntegerBounded(0, 7)) {
             case 0:
-                direciton = Direction.UP;
+                direction = Direction.UP;
                 break;
             case 1:
-                direciton = Direction.DOWN;
+                direction = Direction.DOWN;
                 break;
             case 2:
-                direciton = Direction.LEFT;
+                direction = Direction.LEFT;
                 break;
             case 3:
-                direciton = Direction.RIGHT;
+                direction = Direction.RIGHT;
                 break;
             case 4:
-                direciton = Direction.LEFT_UP;
+                direction = Direction.LEFT_UP;
                 break;
             case 5:
-                direciton = Direction.LEFT_DOWN;
+                direction = Direction.LEFT_DOWN;
                 break;
             case 6:
-                direciton = Direction.RIGHT_UP;
+                direction = Direction.RIGHT_UP;
                 break;
             case 7:
-                direciton = Direction.RIGHT_DOWN;
+                direction = Direction.RIGHT_DOWN;
                 break;
         }
     }
@@ -183,10 +183,37 @@ public class Tank {
 
     public void fire() {
 
-        int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-        int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+        int bX = 0;
+        int bY = 0;
+        switch (direction) {
+            case UP:
+            case DOWN:
+            case LEFT:
+            case RIGHT:
+                bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
+                bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+                break;
+            case LEFT_UP:
+                bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
+                bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+                break;
+            case LEFT_DOWN:
+                bX = this.x;
+                bY = this.y + Tank.HEIGHT / 2 + Bullet.HEIGHT / 2;
+                break;
+            case RIGHT_UP:
+                bX = this.x + Tank.WIDTH / 2 + Bullet.HEIGHT / 2;
+                bY = this.y;
+                break;
+            case RIGHT_DOWN:
+                bX = this.x + Tank.WIDTH / 2;
+                bY = this.y + Tank.HEIGHT / 2;
+                break;
+            default:
+                break;
+        }
+        tankFrame.bulletList.add(new Bullet(bX, bY, direction, tankGroup, tankFrame));
 
-        tankFrame.bulletList.add(new Bullet(bX, bY, direciton, tankGroup, tankFrame));
     }
 
 
@@ -195,8 +222,8 @@ public class Tank {
         if (!isMoveing) {
             return;
         }
-        if (direciton != null) {
-            switch (direciton) {
+        if (direction != null) {
+            switch (direction) {
                 case UP:
                     y -= speed;
                     break;
