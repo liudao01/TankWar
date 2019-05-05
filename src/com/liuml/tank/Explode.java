@@ -12,7 +12,6 @@ public class Explode {
     private int x = 100;
     private int y = 100;
     private TankFrame tankFrame;
-    private boolean living = true;//是否存活
     private TankGroup group;
 
     public static int WIDTH = ResourceMgr.explodes[0].getWidth();
@@ -40,7 +39,6 @@ public class Explode {
     //碰撞检测
 
     private void die() {
-        this.living = false;
         tankFrame.explodes.remove(this);
     }
 }

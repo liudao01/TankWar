@@ -18,6 +18,7 @@ public class Bullet {
     private TankFrame tankFrame;
     private boolean living = true;//是否存活
     private TankGroup group;
+    private Rectangle rect1;
 
     public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
         this.x = x;
@@ -25,6 +26,7 @@ public class Bullet {
         this.group = group;
         this.direciton = direciton;
         this.tankFrame = tankFrame;
+        rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
     }
 
     public int getX() {
@@ -115,10 +117,13 @@ public class Bullet {
                     break;
             }
         }
+
         //屏幕外 销毁
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
             living = false;
         }
+        rect1.x = x;
+        rect1.y = y;
 
     }
 
@@ -126,11 +131,8 @@ public class Bullet {
     //碰撞检测
     public boolean collisionWith(Tank tank) {
 
-        //TODO: 用一个rect来记录子弹的位置
-        Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
 
-        if (rect1.intersects(rect2)) {
+        if (rect1.intersects(tank.rect2)) {
             tankFrame.explodes.add(new Explode(tank.getX(), tank.getY(), group, tankFrame));
             tank.die();
             this.die();

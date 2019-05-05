@@ -24,7 +24,7 @@ public class Tank {
     private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
     Timer timer = new Timer();
-
+    Rectangle rect2;
 
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
@@ -35,6 +35,7 @@ public class Tank {
         if (tankGroup.equals(TankGroup.Enemy)) {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
+        rect2 = new Rectangle(x, y, Tank.WIDTH, Tank.HEIGHT);
     }
 
 
@@ -257,15 +258,17 @@ public class Tank {
         if (x < 0) {
             x = 0;
         }
-        if (x > 800 - 50) {
-            x = 800 - 50;
+        if (x > TankFrame.GAME_WIDTH - 50) {
+            x = TankFrame.GAME_WIDTH - 50;
         }
         if (y < 20) {
             y = 20;
         }
-        if (y > 600 - 50) {
-            y = 600 - 50;
+        if (y > TankFrame.GAME_HEIGHT - 50) {
+            y = TankFrame.GAME_HEIGHT - 50;
         }
+        rect2.x = this.x;
+        rect2.y = this.y;
 
     }
 
