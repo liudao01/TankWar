@@ -1,9 +1,9 @@
 package com.liuml.tank.util;
 
-import com.liuml.tank.TankFrame;
-
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import com.liuml.tank.TankFrame;
 
 /**
  * @ClassName: RandomUtil
@@ -17,7 +17,7 @@ public class RandomUtil {
     // 随机数生成无边界的Int
     public static int getRandomForIntegerUnbounded() {
         int intUnbounded = new Random().nextInt();
-        System.out.println(intUnbounded);
+//        System.out.println(intUnbounded);
         return intUnbounded;
     }
 
@@ -30,7 +30,7 @@ public class RandomUtil {
     // 生成有边界的Int
     public static int getRandomForIntegerBounded(int min, int max) {
         int intBounded = min + ((int) (new Random().nextFloat() * (max - min)));
-        System.out.println(intBounded);
+//        System.out.println(intBounded);
         return intBounded;
     }
 
@@ -64,7 +64,7 @@ public class RandomUtil {
     // 使用ThreadLocalRandom生成有边界的Long
     public static long getRandomForLongBounded4(long min, long max) {
         long threadLongBound = ThreadLocalRandom.current().nextLong(min, max);
-        System.out.println(threadLongBound);
+//        System.out.println(threadLongBound);
         return threadLongBound;
     }
 
@@ -74,14 +74,14 @@ public class RandomUtil {
     // 随机数Float的生成生成0.0-1.0之间的Float随机数
     public static float getRandomForFloat0To1() {
         float floatUnbounded = new Random().nextFloat();
-        System.out.println(floatUnbounded);
+//        System.out.println(floatUnbounded);
         return floatUnbounded;
     }
 
     // 以上只会生成包含0.0而不包括1.0的float类型随机数生成有边界的Float随机数
     public static float getRandomForFloatBounded(float min, float max) {
         float floatBounded = min + new Random().nextFloat() * (max - min);
-        System.out.println(floatBounded);
+//        System.out.println(floatBounded);
         return floatBounded;
     }
 

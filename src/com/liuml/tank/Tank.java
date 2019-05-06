@@ -1,10 +1,11 @@
 package com.liuml.tank;
 
-import com.liuml.tank.util.RandomUtil;
-
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.liuml.tank.util.RandomUtil;
 
 /**
  * 坦克类
@@ -68,7 +69,7 @@ public class Tank {
         if (direction == null) return;
         //如果敌方坦克 随机发射子弹
         if (this.tankGroup.equals(TankGroup.Enemy)) {
-            if (RandomUtil.getRandomForIntegerBounded(0, 10) > 5) {
+            if (RandomUtil.getRandomForIntegerBounded(0, 10) > 8) {
                 fire();
             }
         }

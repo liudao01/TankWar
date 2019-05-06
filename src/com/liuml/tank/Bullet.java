@@ -13,7 +13,7 @@ public class Bullet {
     private int y = 100;
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
-    private int speed = 30;//速度
+    private int speed = 10;//速度
     private Direction direciton;
     private TankFrame tankFrame;
     private boolean living = true;//是否存活
