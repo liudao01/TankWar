@@ -80,6 +80,13 @@ public class TankFrame extends Frame {
             graphics.drawString("当前子弹个数" + bulletList.size(), 20, 50);
             graphics.drawString("按下回车添加敌方坦克-当前敌方坦克个数" + tankList.size(), 20, 70);
             graphics.drawString("爆炸集合 " + explodes.size(), 20, 90);
+            String fireType = "普通子弹";
+            if (tank.fireType == 1) {
+                fireType = "普通子弹";
+            } else if (tank.fireType == 2) {
+                fireType = "四方子弹";
+            }
+            graphics.drawString("按下P 切换发射方式 当前发射方式: " + fireType, 20, 100);
             graphics.setColor(color);
 
             for (int i = 0; i < bulletList.size(); i++) {
@@ -119,9 +126,10 @@ public class TankFrame extends Frame {
         }
     }
 
-    public void addEnemyTank(){
+    public void addEnemyTank() {
         tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN, TankGroup.Enemy, tankFrame));
     }
+
     class MykeyListener extends KeyAdapter {
         boolean bL = false;
         boolean bU = false;
@@ -174,6 +182,16 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_CONTROL:
                     tank.fire();
+                    break;
+                case KeyEvent.VK_F:
+                    tank.fire();
+                    break;
+                case KeyEvent.VK_P:
+                    if (tank.fireType == 1) {
+                        tank.fireType = 2;
+                    } else {
+                        tank.fireType = 1;
+                    }
                     break;
                 default:
                     break;

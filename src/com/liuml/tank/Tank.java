@@ -1,10 +1,12 @@
 package com.liuml.tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.liuml.tank.Interface.FireAble;
 import com.liuml.tank.util.RandomUtil;
 
 /**
@@ -12,7 +14,12 @@ import com.liuml.tank.util.RandomUtil;
  * Created by liuml.
  * Created time 2019/4/28.
  */
-public class Tank {
+public class Tank implements FireAble {
+
+    NormalFire mNormalFire = new NormalFire();
+    FourFire mFourFire = new FourFire();
+
+    public int fireType = 1;//发射种类 1 普通 2 四个方向发射
     public static final int WIDTH = ResourceMgr.tankD.getWidth();
     public static final int HEIGHT = ResourceMgr.tankD.getHeight();
     private int x = 100;
@@ -73,12 +80,18 @@ public class Tank {
                 fire();
             }
         }
+        Color color = graphics.getColor();
+        if (this.tankGroup.equals(TankGroup.MYTANK)) {
+            graphics.setColor(Color.red);
+            graphics.drawString("主角", x + 20, y);
+        }
+        graphics.setColor(color);
+
         switch (direction) {
             case UP:
                 if (tankGroup == TankGroup.MYTANK) {
                     graphics.drawImage(ResourceMgr.MainTankUp, x, y, null);
                 } else {
-
                     graphics.drawImage(ResourceMgr.tankU, x, y, null);
                 }
                 break;
@@ -136,10 +149,21 @@ public class Tank {
                 break;
         }
 
-
         move();
 
     }
+
+    @Override
+    public void fire() {
+
+        //默认子弹
+        if (fireType == 1) {
+            mNormalFire.fireImp(this.x, this.y, direction, tankGroup, tankFrame);
+        } else if (fireType == 2) {
+            mFourFire.fireImp(this.x, this.y, direction, tankGroup, tankFrame);
+        }
+    }
+
 
     class TimerTaskTest extends TimerTask {
 
@@ -181,41 +205,6 @@ public class Tank {
 
     public void setMoveing(boolean moveing) {
         isMoveing = moveing;
-    }
-
-    public void fire() {
-
-        int bX = 0;
-        int bY = 0;
-        switch (direction) {
-            case UP:
-            case DOWN:
-            case LEFT:
-            case RIGHT:
-                bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-                bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-                break;
-            case LEFT_UP:
-                bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-                bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-                break;
-            case LEFT_DOWN:
-                bX = this.x;
-                bY = this.y + Tank.HEIGHT / 2 + Bullet.HEIGHT / 2;
-                break;
-            case RIGHT_UP:
-                bX = this.x + Tank.WIDTH / 2 + Bullet.HEIGHT / 2;
-                bY = this.y;
-                break;
-            case RIGHT_DOWN:
-                bX = this.x + Tank.WIDTH / 2;
-                bY = this.y + Tank.HEIGHT / 2;
-                break;
-            default:
-                break;
-        }
-        tankFrame.bulletList.add(new Bullet(bX, bY, direction, tankGroup, tankFrame));
-
     }
 
 
