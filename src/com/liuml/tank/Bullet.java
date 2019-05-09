@@ -27,6 +27,8 @@ public class Bullet {
         this.direciton = direciton;
         this.tankFrame = tankFrame;
         rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+
+        tankFrame.bulletList.add(this);
     }
 
     public int getX() {

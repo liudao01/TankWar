@@ -1,8 +1,6 @@
 package com.liuml.tank.Interface;
 
-import com.liuml.tank.Direction;
-import com.liuml.tank.TankFrame;
-import com.liuml.tank.TankGroup;
+import com.liuml.tank.Tank;
 
 /**
  * @author liuml
@@ -10,5 +8,5 @@ import com.liuml.tank.TankGroup;
  * @time 2019/5/9 15:35
  */
 public interface FireImp {
-     void fireImp(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame);
+     void fireImp(Tank tank);
 }

@@ -1,13 +1,11 @@
 package com.liuml.tank;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.liuml.tank.Interface.FireAble;
 import com.liuml.tank.util.RandomUtil;
+
+import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 坦克类
@@ -22,14 +20,14 @@ public class Tank implements FireAble {
     public int fireType = 1;//发射种类 1 普通 2 四个方向发射
     public static final int WIDTH = ResourceMgr.tankD.getWidth();
     public static final int HEIGHT = ResourceMgr.tankD.getHeight();
-    private int x = 100;
-    private int y = 100;
+     int x = 100;
+     int y = 100;
 
     private int speed = 5;//速度
-    private Direction direction = Direction.DOWN;//方向
+     Direction direction = Direction.DOWN;//方向
     public boolean isMoveing = true;//是否移动
-    private TankFrame tankFrame = null;
-    private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
+    TankFrame tankFrame = null;
+    TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
     Timer timer = new Timer();
     Rectangle rect2;
@@ -158,9 +156,9 @@ public class Tank implements FireAble {
 
         //默认子弹
         if (fireType == 1) {
-            mNormalFire.fireImp(this.x, this.y, direction, tankGroup, tankFrame);
+            mNormalFire.fireImp(this);
         } else if (fireType == 2) {
-            mFourFire.fireImp(this.x, this.y, direction, tankGroup, tankFrame);
+            mFourFire.fireImp(this);
         }
     }
 

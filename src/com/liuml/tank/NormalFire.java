@@ -9,37 +9,38 @@ import com.liuml.tank.Interface.FireImp;
  */
 public class NormalFire implements FireImp {
 
+
     @Override
-    public void fireImp(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
+    public void fireImp(Tank tank) {
         int bX = 0;
         int bY = 0;
-        switch (direciton) {
+        switch (tank.direction) {
             case UP:
             case DOWN:
             case LEFT:
             case RIGHT:
-                bX = x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-                bY = y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+                bX = tank.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
+                bY = tank.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
                 break;
             case LEFT_UP:
-                bX = x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-                bY = y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+                bX = tank.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
+                bY = tank.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
                 break;
             case LEFT_DOWN:
-                bX = x;
-                bY = y + Tank.HEIGHT / 2 + Bullet.HEIGHT / 2;
+                bX = tank.x;
+                bY = tank.y + Tank.HEIGHT / 2 + Bullet.HEIGHT / 2;
                 break;
             case RIGHT_UP:
-                bX = x + Tank.WIDTH / 2 + Bullet.HEIGHT / 2;
-                bY = y;
+                bX = tank.x + Tank.WIDTH / 2 + Bullet.HEIGHT / 2;
+                bY = tank.y;
                 break;
             case RIGHT_DOWN:
-                bX = x + Tank.WIDTH / 2;
-                bY = y + Tank.HEIGHT / 2;
+                bX = tank.x + Tank.WIDTH / 2;
+                bY = tank.y + Tank.HEIGHT / 2;
                 break;
             default:
                 break;
         }
-        tankFrame.bulletList.add(new Bullet(bX, bY, direciton, group, tankFrame));
+        new Bullet(bX, bY, tank.direction, tank.getTankGroup(), tank.tankFrame);
     }
 }
