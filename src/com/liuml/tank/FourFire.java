@@ -43,7 +43,7 @@ public class FourFire implements FireImp {
                 break;
         }
         for (Direction direction : dirs) {
-            new Bullet(bX, bY, direction, tank.getTankGroup(), tank.tankFrame);
+            new Bullet(bX, bY, direction, tank.getTankGroup(), tank.gameMode);
         }
     }
 }

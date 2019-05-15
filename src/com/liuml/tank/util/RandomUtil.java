@@ -3,7 +3,8 @@ package com.liuml.tank.util;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.liuml.tank.TankFrame;
+import static com.liuml.tank.GameMode.GAME_HEIGHT;
+import static com.liuml.tank.GameMode.GAME_WIDTH;
 
 /**
  * @ClassName: RandomUtil
@@ -22,10 +23,10 @@ public class RandomUtil {
     }
 
     public static int getRandomHeight() {
-        return getRandomForIntegerBounded(0, TankFrame.GAME_HEIGHT);
+        return getRandomForIntegerBounded(0, GAME_HEIGHT);
     }
     public static int getRandomWidth() {
-        return getRandomForIntegerBounded(0, TankFrame.GAME_WIDTH);
+        return getRandomForIntegerBounded(0, GAME_WIDTH);
     }
     // 生成有边界的Int
     public static int getRandomForIntegerBounded(int min, int max) {

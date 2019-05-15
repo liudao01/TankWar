@@ -26,18 +26,18 @@ public class Tank implements FireAble {
     private int speed = 5;//速度
      Direction direction = Direction.DOWN;//方向
     public boolean isMoveing = true;//是否移动
-    TankFrame tankFrame = null;
+    GameMode gameMode = null;
     TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
     Timer timer = new Timer();
     Rectangle rect2;
 
-    public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
+    public Tank(int x, int y, Direction direciton, TankGroup tankType, GameMode gameMode) {
         this.x = x;
         this.y = y;
         this.tankGroup = tankType;
         this.direction = direciton;
-        this.tankFrame = tankFrame;
+        this.gameMode = gameMode;
         if (tankGroup.equals(TankGroup.Enemy)) {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
@@ -68,7 +68,7 @@ public class Tank implements FireAble {
 
     public void paint(Graphics graphics) {
         if (!isLiving()) {
-            tankFrame.tankList.remove(this);
+            gameMode.tankList.remove(this);
             return;
         }
         if (direction == null) return;
@@ -246,14 +246,14 @@ public class Tank implements FireAble {
         if (x < 0) {
             x = 0;
         }
-        if (x > TankFrame.GAME_WIDTH - 50) {
-            x = TankFrame.GAME_WIDTH - 50;
+        if (x > GameMode.GAME_WIDTH - 50) {
+            x = GameMode.GAME_WIDTH - 50;
         }
         if (y < 20) {
             y = 20;
         }
-        if (y > TankFrame.GAME_HEIGHT - 50) {
-            y = TankFrame.GAME_HEIGHT - 50;
+        if (y > GameMode.GAME_HEIGHT - 50) {
+            y = GameMode.GAME_HEIGHT - 50;
         }
         rect2.x = this.x;
         rect2.y = this.y;

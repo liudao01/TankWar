@@ -11,7 +11,7 @@ public class Explode {
 
     private int x = 100;
     private int y = 100;
-    private TankFrame tankFrame;
+    private GameMode gameMode;
     private TankGroup group;
 
     public static int WIDTH = ResourceMgr.explodes[0].getWidth();
@@ -19,11 +19,11 @@ public class Explode {
 
     private int step = 0;
 
-    public Explode(int x, int y, TankGroup group, TankFrame tankFrame) {
+    public Explode(int x, int y, TankGroup group, GameMode gameMode) {
         this.x = x;
         this.y = y;
         this.group = group;
-        this.tankFrame = tankFrame;
+        this.gameMode = gameMode;
     }
 
 
@@ -39,6 +39,6 @@ public class Explode {
     //碰撞检测
 
     private void die() {
-        tankFrame.explodes.remove(this);
+        gameMode.explodes.remove(this);
     }
 }

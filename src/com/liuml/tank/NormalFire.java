@@ -41,6 +41,6 @@ public class NormalFire implements FireImp {
             default:
                 break;
         }
-        new Bullet(bX, bY, tank.direction, tank.getTankGroup(), tank.tankFrame);
+        new Bullet(bX, bY, tank.direction, tank.getTankGroup(), tank.gameMode);
     }
 }

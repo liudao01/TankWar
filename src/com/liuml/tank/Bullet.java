@@ -2,6 +2,9 @@ package com.liuml.tank;
 
 import java.awt.*;
 
+import static com.liuml.tank.GameMode.GAME_HEIGHT;
+import static com.liuml.tank.GameMode.GAME_WIDTH;
+
 /**
  * 子弹类
  * Created by liuml.
@@ -15,20 +18,20 @@ public class Bullet {
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
     private int speed = 10;//速度
     private Direction direciton;
-    private TankFrame tankFrame;
+    private GameMode gameMode;
     private boolean living = true;//是否存活
     private TankGroup group;
     private Rectangle rect1;
 
-    public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
+    public Bullet(int x, int y, Direction direciton, TankGroup group, GameMode gameMode) {
         this.x = x;
         this.y = y;
         this.group = group;
         this.direciton = direciton;
-        this.tankFrame = tankFrame;
+        this.gameMode = gameMode;
         rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
 
-        tankFrame.bulletList.add(this);
+        gameMode.bulletList.add(this);
     }
 
     public int getX() {
@@ -53,7 +56,7 @@ public class Bullet {
 
     public void paint(Graphics graphics) {
         if (!living) {
-            tankFrame.bulletList.remove(this);
+            gameMode.bulletList.remove(this);
         }
         if (direciton == null) return;
         switch (direciton) {
@@ -121,7 +124,7 @@ public class Bullet {
         }
 
         //屏幕外 销毁
-        if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
+        if (x < 0 || y < 0 || x > GAME_WIDTH || y > GAME_HEIGHT) {
             living = false;
         }
         rect1.x = x;
@@ -133,9 +136,8 @@ public class Bullet {
     //碰撞检测
     public boolean collisionWith(Tank tank) {
 
-
         if (rect1.intersects(tank.rect2)) {
-            tankFrame.explodes.add(new Explode(tank.getX(), tank.getY(), group, tankFrame));
+            gameMode.explodes.add(new Explode(tank.getX(), tank.getY(), group, gameMode));
             tank.die();
             this.die();
             return true;

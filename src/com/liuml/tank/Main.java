@@ -6,7 +6,7 @@ public class Main {
         TankFrame tankFrame = new TankFrame();
         int initTankCount = PropertyMgr.getInstance().getInt("initTankCount");
         for (int i = 0; i < initTankCount; i++) {
-            tankFrame.addEnemyTank();
+            tankFrame.gameMode.addEnemyTank();
         }
 
         while (true) {
