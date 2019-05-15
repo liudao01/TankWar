@@ -57,7 +57,10 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics graphics) {
 
+        if (gameMode != null) {
+
         gameMode.paint(graphics);
+        }
     }
 
 
