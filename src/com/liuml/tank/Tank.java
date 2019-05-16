@@ -1,6 +1,8 @@
 package com.liuml.tank;
 
-import com.liuml.tank.Interface.FireAble;
+import com.liuml.tank.Interface.FireStrategy;
+import com.liuml.tank.strategy.FourFire;
+import com.liuml.tank.strategy.NormalFire;
 import com.liuml.tank.util.RandomUtil;
 
 import java.awt.*;
@@ -12,7 +14,7 @@ import java.util.TimerTask;
  * Created by liuml.
  * Created time 2019/4/28.
  */
-public class Tank implements FireAble {
+public class Tank {
 
     NormalFire mNormalFire = new NormalFire();
     FourFire mFourFire = new FourFire();
@@ -20,17 +22,17 @@ public class Tank implements FireAble {
     public int fireType = 1;//发射种类 1 普通 2 四个方向发射
     public static final int WIDTH = ResourceMgr.tankD.getWidth();
     public static final int HEIGHT = ResourceMgr.tankD.getHeight();
-     int x = 100;
-     int y = 100;
+    public int x = 100;
+    public int y = 100;
 
     private int speed = 5;//速度
-     Direction direction = Direction.DOWN;//方向
+    public Direction direction = Direction.DOWN;//方向
     public boolean isMoveing = true;//是否移动
-    GameMode gameMode = null;
-    TankGroup tankGroup;//坦克的类型 我方,敌方,友方
+    public GameMode gameMode = null;
+    public TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
-    Timer timer = new Timer();
-    Rectangle rect2;
+    public Timer timer = new Timer();
+    public Rectangle rect2;
 
     public Tank(int x, int y, Direction direciton, TankGroup tankType, GameMode gameMode) {
         this.x = x;
@@ -42,6 +44,13 @@ public class Tank implements FireAble {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
         rect2 = new Rectangle(x, y, Tank.WIDTH, Tank.HEIGHT);
+        if (tankGroup.equals(TankGroup.MYTANK)) {
+            fs = new FourFire();
+            speed = 5;
+        } else if (tankGroup.equals(TankGroup.Enemy)) {
+            fs = new NormalFire();
+            speed = 3;
+        }
     }
 
 
@@ -66,6 +75,8 @@ public class Tank implements FireAble {
         return tankGroup;
     }
 
+    //开火策略
+    public FireStrategy fs;
     public void paint(Graphics graphics) {
         if (!isLiving()) {
             gameMode.tankList.remove(this);
@@ -75,7 +86,7 @@ public class Tank implements FireAble {
         //如果敌方坦克 随机发射子弹
         if (this.tankGroup.equals(TankGroup.Enemy)) {
             if (RandomUtil.getRandomForIntegerBounded(0, 10) > 8) {
-                fire();
+                fs.fire(this);
             }
         }
         Color color = graphics.getColor();
@@ -151,18 +162,9 @@ public class Tank implements FireAble {
 
     }
 
-    @Override
     public void fire() {
-
-        //默认子弹
-        if (fireType == 1) {
-            mNormalFire.fireImp(this);
-        } else if (fireType == 2) {
-            mFourFire.fireImp(this);
-        }
+        fs.fire(this);
     }
-
-
     class TimerTaskTest extends TimerTask {
 
         @Override

@@ -4,9 +4,9 @@ import com.liuml.tank.Tank;
 
 /**
  * @author liuml
- * @explain 具体实现开火类
+ * @explain 开火策略
  * @time 2019/5/9 15:35
  */
-public interface FireImp {
-     void fireImp(Tank tank);
+public interface FireStrategy {
+     void fire(Tank tank);
 }

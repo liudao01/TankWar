@@ -1,17 +1,20 @@
-package com.liuml.tank;
+package com.liuml.tank.strategy;
 
-import com.liuml.tank.Interface.FireImp;
+import com.liuml.tank.Bullet;
+import com.liuml.tank.Direction;
+import com.liuml.tank.Interface.FireStrategy;
+import com.liuml.tank.Tank;
 
 /**
  * @author liuml
  * @explain 四个方向的子弹
  * @time 2019/5/9 15:37
  */
-public class FourFire implements FireImp {
+public class FourFire implements FireStrategy {
 
 
     @Override
-    public void fireImp(Tank tank) {
+    public void fire(Tank tank) {
         int bX = 0;
         int bY = 0;
         Direction[] dirs = Direction.values();
