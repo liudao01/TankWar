@@ -56,14 +56,10 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-
         if (gameMode != null) {
-
-        gameMode.paint(graphics);
+            gameMode.paint(graphics);
         }
     }
-
-
 
     class MykeyListener extends KeyAdapter {
         boolean bL = false;
