@@ -1,7 +1,5 @@
 package com.liuml.tank;
 
-import com.liuml.tank.util.LogUtils;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,7 +13,8 @@ public class ResourceMgr {
 
     static {
         try {
-            LogUtils.debug("ResourceMgr.class.getClassLoader() = "+ResourceMgr.class.getClassLoader().toString());
+            System.out.println("初始化打印");
+//            LogUtils.debug("getResource() = "+ResourceMgr.class.getClassLoader().getResource("images/tankL.gif").getPath());
             tankL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankL.gif"));
             tankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankU.gif"));
             tankR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankR.gif"));
