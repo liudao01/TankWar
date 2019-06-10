@@ -95,7 +95,7 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter {
 //        System.out.println("get client data");
         ByteBuf buf = null;
         try {
-            TankMsg tm = (TankMsg)msg;
+            TankJoinMsg tm = (TankJoinMsg)msg;
 
             System.out.println(tm);
         } finally {

@@ -108,7 +108,7 @@ class ClientHandler extends ChannelInboundHandlerAdapter {
 //        ctx.writeAndFlush(buf);
 
         //发送坦克的位置
-        ctx.writeAndFlush(new TankMsg(5, 10));
+        ctx.writeAndFlush(new TankJoinMsg(5, 10));
     }
 
     @Override

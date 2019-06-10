@@ -5,10 +5,10 @@ package com.liuml.tank.net;
  * @explain
  * @time 2019-06-05 15:02
  */
-public class TankMsg {
+public class TankJoinMsg {
     public int x, y;
 
-    public TankMsg(int x, int y) {
+    public TankJoinMsg(int x, int y) {
         this.x = x;
         this.y = y;
     }
