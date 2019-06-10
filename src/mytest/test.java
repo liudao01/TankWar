@@ -1,11 +1,11 @@
 package mytest;
 
-import org.junit.Test;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+
+import org.junit.Test;
 
 /**
  * desc
@@ -25,5 +25,6 @@ public class test {
             e.printStackTrace();
         }
     }
+
 
 }
