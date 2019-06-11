@@ -1,15 +1,12 @@
 package com.liuml.tank.net;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
@@ -42,6 +39,7 @@ public class Server {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline
                             .addLast(new TankMsgDecoder())//服务端加入解码器
+                            .addLast(new TankMsgEncoder())//服务端加入编码
                             .addLast(new ServerChildHandler());//// 客户端触发操作
                     }
                 })
@@ -83,24 +81,27 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter {
         Server.clients.add(ctx.channel());//假如有多个客户端链接那么 需要把新接入的客户端加入通道组
 
         //Successful connection
-        ByteBuf buf = Unpooled.copiedBuffer("server : welcome  ".getBytes());
-        Server.clients.writeAndFlush(buf);
+//        ByteBuf buf = Unpooled.copiedBuffer("server : welcome  ".getBytes());
+//        Server.clients.writeAndFlush(buf);
 
 
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //通道里读数据
-//        System.out.println("get client data");
-        ByteBuf buf = null;
-        try {
-            TankJoinMsg tm = (TankJoinMsg)msg;
+        System.out.println("服务端接收到数据了");
+        //把接收到的消息在每个客户端都写出去
+        System.out.println(msg.toString());
+        Server.clients.writeAndFlush(msg);
 
-            System.out.println(tm);
-        } finally {
-            ReferenceCountUtil.release(msg);
-        }
+//        ByteBuf buf = null;
+//        try {
+//            TankJoinMsg tm = (TankJoinMsg)msg;
+//
+//            System.out.println(tm);
+//        } finally {
+//            ReferenceCountUtil.release(msg);
+//        }
        /* buf = (ByteBuf)msg;
         byte[] bytes = new byte[buf.readableBytes()];
         buf.getBytes(buf.readerIndex(), bytes);

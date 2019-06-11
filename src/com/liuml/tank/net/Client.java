@@ -68,6 +68,7 @@ public class Client {
     }
 
 
+
     /**
      * 发送关闭链接消息
      */
@@ -102,31 +103,23 @@ class ClientChannelInitializer extends ChannelInitializer {
 
 //ChannelInboundHandler的一个简单实现，默认情况下不会做任何处理，
 // 只是简单的将操作通过fire*方法传递到ChannelPipeline中的下一个ChannelHandler中让链中的下一个ChannelHandler去处理。
-class ClientHandler extends ChannelInboundHandlerAdapter {
+class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(ctx);
-        //第一次链接发个消息 channle 第一次连上可用，写出一个字符串
-//        ByteBuf buf = Unpooled.copiedBuffer("link start".getBytes());
-//        ctx.writeAndFlush(buf);
-
+        System.out.println("发送坦克位置");
         //发送坦克的位置
         ctx.writeAndFlush(new TankJoinMsg(5, 10, Direction.DOWN, false, TankGroup.MYTANK, UUID.randomUUID()));
     }
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //获取从服务端返回的数据
-        ByteBuf buf = null;
 
-        buf = (ByteBuf)msg;
-        byte[] bytes = new byte[buf.readableBytes()];
-        buf.getBytes(buf.readerIndex(), bytes);
-        String msgAccepted = new String(bytes);
-        System.out.println(msgAccepted);
-//        ClientFrame.sClientFrame.updateText(msgAccepted);
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
+        //获取从服务端返回的数据
+        System.out.println("客户端接收到消息 ");
+        System.out.println(tankJoinMsg.toString());
     }
 }
 
