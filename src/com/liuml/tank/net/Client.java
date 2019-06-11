@@ -20,10 +20,10 @@ public class Client {
 
     private Channel sChannel;
 
-    public static void main(String[] args) {
-        Client c = new Client();
-        c.connect();
-    }
+//    public static void main(String[] args) {
+//        Client c = new Client();
+//        c.connect();
+//    }
 
     public void connect() {
 

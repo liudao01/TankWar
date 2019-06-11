@@ -1,5 +1,7 @@
 package com.liuml.tank;
 
+import com.liuml.tank.net.Client;
+
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
@@ -9,11 +11,21 @@ public class Main {
 //            tankFrame.addEnemyTank();
 //        }
 
-        while (true) {
-            Thread.sleep(50);
-            tankFrame.repaint();
-        }
+        new Thread(()-> {
+            while(true) {
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                tankFrame.repaint();
+            }
+        }).start();
+        //连接到服务器
+        Client c = new Client();
+        c.connect();
     }
+
 
 
 }
