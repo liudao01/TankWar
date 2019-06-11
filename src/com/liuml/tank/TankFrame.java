@@ -24,12 +24,11 @@ public class TankFrame extends Frame {
     List<Bullet> bulletList = new ArrayList<>();
     List<Tank> tankList = new ArrayList<>();
     List<Explode> explodes = new ArrayList<>();
-    TankFrame tankFrame;
+    public static final TankFrame INSTANCE = new TankFrame();
 
 
-    public TankFrame() {
+    private TankFrame() {
 
-        tankFrame = this;
         // TODO Auto-generated constructor stub
         setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
@@ -97,6 +96,13 @@ public class TankFrame extends Frame {
 
     }
 
+    /**
+     * 添加坦克
+     * @param t
+     */
+    public void addTank(Tank t) {
+        tankList.add(t);
+    }
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
@@ -120,7 +126,8 @@ public class TankFrame extends Frame {
     }
 
     public void addEnemyTank(){
-        tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN, TankGroup.Enemy, tankFrame));
+        tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,
+            TankGroup.Enemy, this));
     }
     class MykeyListener extends KeyAdapter {
         boolean bL = false;

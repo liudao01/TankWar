@@ -3,6 +3,8 @@ package com.liuml.tank.net;
 import java.util.UUID;
 
 import com.liuml.tank.Direction;
+import com.liuml.tank.Tank;
+import com.liuml.tank.TankFrame;
 import com.liuml.tank.TankGroup;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -110,7 +112,7 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("发送坦克位置");
         //发送坦克的位置
-        ctx.writeAndFlush(new TankJoinMsg(5, 10, Direction.DOWN, false, TankGroup.MYTANK, UUID.randomUUID()));
+        ctx.writeAndFlush(new TankJoinMsg(5, 10, Direction.DOWN, false, TankGroup.Enemy, UUID.randomUUID()));
     }
 
 
@@ -118,8 +120,10 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
         //获取从服务端返回的数据
-        System.out.println("客户端接收到消息 ");
-        System.out.println(tankJoinMsg.toString());
+        System.out.println("客户端接收到消息 "+tankJoinMsg.toString());
+        Tank t = new Tank(tankJoinMsg);
+        TankFrame.INSTANCE.addTank(t);
+//        System.out.println(tankJoinMsg.toString());
     }
 }
 

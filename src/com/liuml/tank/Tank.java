@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import com.liuml.tank.net.TankJoinMsg;
 import com.liuml.tank.util.RandomUtil;
 
 /**
@@ -28,8 +29,21 @@ public class Tank {
     Timer timer = new Timer();
     Rectangle rect2;
 
-    UUID id= UUID.randomUUID();
+    UUID id ;
 
+
+    /**
+     * 根据加入的消息创建坦克
+     * @param tankJoinMsg
+     */
+    public Tank(TankJoinMsg tankJoinMsg) {
+        this.x = tankJoinMsg.x;
+        this.y = tankJoinMsg.y;
+        this.tankGroup = tankJoinMsg.mGroup;
+        this.direction = tankJoinMsg.mDirection;
+        this.id= tankJoinMsg.mUUID;
+        this.isMoveing = tankJoinMsg.moving;
+    }
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
@@ -84,7 +98,7 @@ public class Tank {
         //如果敌方坦克 随机发射子弹
         if (this.tankGroup.equals(TankGroup.Enemy)) {
             if (RandomUtil.getRandomForIntegerBounded(0, 10) > 8) {
-                fire();
+//                fire();
             }
         }
         switch (direction) {
