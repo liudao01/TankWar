@@ -1,7 +1,10 @@
 package com.liuml.tank.net;
 
 import java.util.List;
+import java.util.UUID;
 
+import com.liuml.tank.Direction;
+import com.liuml.tank.TankGroup;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -15,10 +18,16 @@ public class TankMsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 
-        if(in.readableBytes()<8)return;
+        if(in.readableBytes()<33)return;//TCP 拆包粘包问题 只有小于33才算是一个消息
+        TankJoinMsg msg = new TankJoinMsg();
 
-        int x = in.readInt();
-        int y = in.readInt();
-        out.add(new TankJoinMsg(x, y));
+        msg.x = in.readInt();
+        msg.y = in.readInt();
+        msg.mDirection = Direction.values()[in.readInt()];
+        msg.moving = in.readBoolean();
+        msg.mGroup = TankGroup.values()[in.readInt()];
+        msg.mUUID = new UUID(in.readLong(), in.readLong());
+
+        out.add(msg);
     }
 }

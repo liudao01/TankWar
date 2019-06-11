@@ -1,5 +1,9 @@
 package com.liuml.tank.net;
 
+import java.util.UUID;
+
+import com.liuml.tank.Direction;
+import com.liuml.tank.TankGroup;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -91,6 +95,7 @@ class ClientChannelInitializer extends ChannelInitializer {
     protected void initChannel(Channel ch) throws Exception {
         ch.pipeline()
             .addLast(new TankMsgEncoder())//客户端加入编码器
+            .addLast(new TankMsgDecoder())//客户端加入解码器
             .addLast(new ClientHandler());
     }
 }
@@ -108,7 +113,7 @@ class ClientHandler extends ChannelInboundHandlerAdapter {
 //        ctx.writeAndFlush(buf);
 
         //发送坦克的位置
-        ctx.writeAndFlush(new TankJoinMsg(5, 10));
+        ctx.writeAndFlush(new TankJoinMsg(5, 10, Direction.DOWN, false, TankGroup.MYTANK, UUID.randomUUID()));
     }
 
     @Override

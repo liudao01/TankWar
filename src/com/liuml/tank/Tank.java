@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import com.liuml.tank.util.RandomUtil;
 
@@ -27,6 +28,8 @@ public class Tank {
     Timer timer = new Timer();
     Rectangle rect2;
 
+    UUID id= UUID.randomUUID();
+
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
@@ -37,8 +40,19 @@ public class Tank {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
         rect2 = new Rectangle(x, y, Tank.WIDTH, Tank.HEIGHT);
+        rect2.x = this.x;
+        rect2.y = this.y;
+        rect2.width = WIDTH;
+        rect2.height = HEIGHT;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public int getX() {
         return x;
