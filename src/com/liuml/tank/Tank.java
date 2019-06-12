@@ -1,5 +1,6 @@
 package com.liuml.tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Timer;
@@ -60,6 +61,10 @@ public class Tank {
         rect2.height = HEIGHT;
     }
 
+    public void setTankGroup(TankGroup tankGroup) {
+        this.tankGroup = tankGroup;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -101,6 +106,11 @@ public class Tank {
 //                fire();
             }
         }
+        //uuid on head
+        Color c = graphics.getColor();
+        graphics.setColor(Color.YELLOW);
+        graphics.drawString(id.toString(), this.x, this.y - 10);
+        graphics.setColor(c);
         switch (direction) {
             case UP:
                 if (tankGroup == TankGroup.MYTANK) {

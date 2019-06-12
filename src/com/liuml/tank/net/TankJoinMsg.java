@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import com.liuml.tank.Direction;
+import com.liuml.tank.Tank;
 import com.liuml.tank.TankGroup;
 
 /**
@@ -29,7 +30,11 @@ public class TankJoinMsg {
         mUUID = UUID;
     }
 
+    public TankJoinMsg(Tank mainTank) {
+
+    }
     public TankJoinMsg() {
+
     }
 
 
@@ -54,7 +59,7 @@ public class TankJoinMsg {
         try {
             baos = new ByteArrayOutputStream();
             //使用jdk 自带的
-            dos = new DataOutputStream(baos);//为什么不用netty 的BytBuf  使用BytBuf 相当于绑定了netty 以后换框架不好换
+            dos = new DataOutputStream(baos);//为什么不用netty的BytBuf  使用BytBuf 相当于绑定了netty 以后换框架不好换
             //dos.writeInt(TYPE.ordinal());
             dos.writeInt(x);//int 4个字节
             dos.writeInt(y);//4个字节

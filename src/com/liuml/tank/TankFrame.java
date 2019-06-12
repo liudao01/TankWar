@@ -20,13 +20,14 @@ public class TankFrame extends Frame {
     private int y = 200;
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
-    private Tank tank;//主角坦克
     List<Bullet> bulletList = new ArrayList<>();
     List<Tank> tankList = new ArrayList<>();
     List<Explode> explodes = new ArrayList<>();
     public static final TankFrame INSTANCE = new TankFrame();
 
-
+    Tank tank = new Tank(RandomUtil.getRandomWidth(), RandomUtil.getRandomHeight(), Direction.DOWN,
+    TankGroup.MYTANK, this);
+    //主角坦克
     private TankFrame() {
 
         // TODO Auto-generated constructor stub
@@ -44,7 +45,7 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new MykeyListener());
 
-        tank = new Tank(x, y, Direction.DOWN, TankGroup.MYTANK, this);
+
     }
 
     Image offScreenImage = null;
@@ -98,11 +99,13 @@ public class TankFrame extends Frame {
 
     /**
      * 添加坦克
+     *
      * @param t
      */
     public void addTank(Tank t) {
         tankList.add(t);
     }
+
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
@@ -125,10 +128,11 @@ public class TankFrame extends Frame {
         }
     }
 
-    public void addEnemyTank(){
+    public void addEnemyTank() {
         tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,
             TankGroup.Enemy, this));
     }
+
     class MykeyListener extends KeyAdapter {
         boolean bL = false;
         boolean bU = false;
@@ -224,6 +228,9 @@ public class TankFrame extends Frame {
         }
 
 
+    }
+    public Tank getMainTank() {
+        return this.tank;
     }
 
 }
