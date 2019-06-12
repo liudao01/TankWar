@@ -30,7 +30,7 @@ public class Tank {
     Timer timer = new Timer();
     Rectangle rect2;
 
-    UUID id ;
+    UUID id = UUID.randomUUID();
 
 
     /**
@@ -44,6 +44,8 @@ public class Tank {
         this.direction = tankJoinMsg.mDirection;
         this.id= tankJoinMsg.mUUID;
         this.isMoveing = tankJoinMsg.moving;
+
+        initRect();
     }
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
@@ -54,6 +56,9 @@ public class Tank {
         if (tankGroup.equals(TankGroup.Enemy)) {
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
+        initRect();
+    }
+    private void initRect(){
         rect2 = new Rectangle(x, y, Tank.WIDTH, Tank.HEIGHT);
         rect2.x = this.x;
         rect2.y = this.y;
@@ -88,6 +93,10 @@ public class Tank {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     public TankGroup getTankGroup() {

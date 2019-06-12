@@ -31,6 +31,12 @@ public class TankJoinMsg {
     }
 
     public TankJoinMsg(Tank mainTank) {
+        this.x = mainTank.getX();
+        this.y = mainTank.getY();
+        mDirection = mainTank.getDirection();
+        this.moving = mainTank.isMoveing;
+        mGroup = mainTank.getTankGroup();
+        mUUID = mainTank.getId();
 
     }
     public TankJoinMsg() {
