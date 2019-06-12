@@ -15,7 +15,7 @@ import com.liuml.tank.TankGroup;
  * @explain
  * @time 2019-06-05 15:02
  */
-public class TankJoinMsg {
+public class TankJoinMsg extends Msg{
     public int x, y;
     public Direction mDirection;
     public boolean moving;
@@ -56,6 +56,8 @@ public class TankJoinMsg {
             ", mUUID=" + mUUID +
             '}';
     }
+
+
 
     //把消息转换成字节数组
     public byte[] toBytes() {
@@ -102,7 +104,8 @@ public class TankJoinMsg {
         return bytes;
     }
 
-    public void handler() {
+    @Override
+    public void handle() {
         System.out.println("客户端接收到消息 " + this.toString());
         //如果接收到的消息的uuid 是自己发的 则不处理
         if(this.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId()) ||

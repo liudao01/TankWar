@@ -114,7 +114,7 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
-        tankJoinMsg.handler();
+        tankJoinMsg.handle();
     }
 }
 
