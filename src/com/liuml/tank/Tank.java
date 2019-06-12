@@ -23,11 +23,11 @@ public class Tank {
 
     private int speed = 5;//速度
     private Direction direction = Direction.DOWN;//方向
-    public boolean isMoveing = true;//是否移动
+    public boolean isMoveing = false;//是否移动
     private TankFrame tankFrame = null;
     private TankGroup tankGroup;//坦克的类型 我方,敌方,友方
     private boolean living = true;//是否存活
-    Timer timer = new Timer();
+    Timer timer;
     Rectangle rect2;
 
     UUID id = UUID.randomUUID();
@@ -35,6 +35,7 @@ public class Tank {
 
     /**
      * 根据加入的消息创建坦克
+     *
      * @param tankJoinMsg
      */
     public Tank(TankJoinMsg tankJoinMsg) {
@@ -42,11 +43,11 @@ public class Tank {
         this.y = tankJoinMsg.y;
         this.tankGroup = tankJoinMsg.mGroup;
         this.direction = tankJoinMsg.mDirection;
-        this.id= tankJoinMsg.mUUID;
+        this.id = tankJoinMsg.mUUID;
         this.isMoveing = tankJoinMsg.moving;
-
         initRect();
     }
+
     public Tank(int x, int y, Direction direciton, TankGroup tankType, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
@@ -54,11 +55,15 @@ public class Tank {
         this.direction = direciton;
         this.tankFrame = tankFrame;
         if (tankGroup.equals(TankGroup.Enemy)) {
+            if (timer == null) {
+                timer = new Timer();
+            }
             timer.schedule(new TimerTaskTest(), 1000, 2000);
         }
         initRect();
     }
-    private void initRect(){
+
+    private void initRect() {
         rect2 = new Rectangle(x, y, Tank.WIDTH, Tank.HEIGHT);
         rect2.x = this.x;
         rect2.y = this.y;

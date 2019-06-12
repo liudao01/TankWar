@@ -113,14 +113,15 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
-        //获取从服务端返回的数据
         System.out.println("客户端接收到消息 " + tankJoinMsg.toString());
+        //如果接收到的消息的uuid 是自己发的 则不处理
+        if(tankJoinMsg.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId()) ||
+            TankFrame.INSTANCE.findByUUID(tankJoinMsg.mUUID) != null) return;
+        //获取从服务端返回的数据
         Tank t = new Tank(tankJoinMsg);
-        //判断发送加入的消息和自身是否同一个 不是同一个才发消息
-        if (!t.getId().equals(TankFrame.INSTANCE.getMainTank().getId())) {
-            TankFrame.INSTANCE.addTank(t);
-        }
-//        System.out.println(tankJoinMsg.toString());
+        TankFrame.INSTANCE.addTank(t);
+        //接收到消息后把自身的坦克状态给发送出去
+        channelHandlerContext.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
     }
 }
 

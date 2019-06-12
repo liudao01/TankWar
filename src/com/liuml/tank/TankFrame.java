@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.liuml.tank.util.RandomUtil;
 
@@ -103,9 +104,24 @@ public class TankFrame extends Frame {
      * @param t
      */
     public void addTank(Tank t) {
+        //判断添加的坦克在坦克列表里是否存在 如果则存在不添加
+        for(int i=0; i<tankList.size(); i++) {
+            if(t.getId().equals(tankList.get(i).getId())) {
+                return;
+            }
+        }
         tankList.add(t);
     }
 
+    public Tank findByUUID(UUID id) {
+        for(int i=0; i<tankList.size(); i++) {
+            if(id.equals(tankList.get(i).getId())) {
+                return tankList.get(i);
+            }
+        }
+
+        return null;
+    }
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
