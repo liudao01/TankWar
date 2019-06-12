@@ -110,7 +110,7 @@ public class Tank {
 
     public void paint(Graphics graphics) {
         if (!isLiving()) {
-            tankFrame.tankList.remove(this);
+            tankFrame.tanks.remove(this);
             return;
         }
         if (direction == null) return;

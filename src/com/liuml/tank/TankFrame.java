@@ -9,9 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import com.liuml.tank.util.RandomUtil;
 
@@ -22,7 +20,7 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
     List<Bullet> bulletList = new ArrayList<>();
-    List<Tank> tankList = new ArrayList<>();
+    Map<UUID,Tank> tanks = new HashMap<>();
     List<Explode> explodes = new ArrayList<>();
     public static final TankFrame INSTANCE = new TankFrame();
 
@@ -79,16 +77,17 @@ public class TankFrame extends Frame {
 
             graphics.setColor(Color.GREEN);
             graphics.drawString("当前子弹个数" + bulletList.size(), 20, 50);
-            graphics.drawString("按下回车添加敌方坦克-当前敌方坦克个数" + tankList.size(), 20, 70);
+            graphics.drawString("按下回车添加敌方坦克-当前敌方坦克个数" + tanks.size(), 20, 70);
             graphics.drawString("爆炸集合 " + explodes.size(), 20, 90);
             graphics.setColor(color);
 
             for (int i = 0; i < bulletList.size(); i++) {
                 bulletList.get(i).paint(graphics);
             }
-            for (int i = 0; i < tankList.size(); i++) {
-                tankList.get(i).paint(graphics);
-            }
+
+            //java8 stream
+            tanks.values().stream().forEach((e) -> e.paint(graphics));
+
             for (int i = 0; i < explodes.size(); i++) {
                 explodes.get(i).paint(graphics);
             }
@@ -104,32 +103,22 @@ public class TankFrame extends Frame {
      * @param t
      */
     public void addTank(Tank t) {
-        //判断添加的坦克在坦克列表里是否存在 如果则存在不添加
-        for(int i=0; i<tankList.size(); i++) {
-            if(t.getId().equals(tankList.get(i).getId())) {
-                return;
-            }
-        }
-        tankList.add(t);
+
+        tanks.put(t.getId(),t);
     }
 
     public Tank findByUUID(UUID id) {
-        for(int i=0; i<tankList.size(); i++) {
-            if(id.equals(tankList.get(i).getId())) {
-                return tankList.get(i);
-            }
-        }
 
-        return null;
+        return tanks.get(id);
     }
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
-            for (int j = 0; j < tankList.size(); j++) {
-                if (tankList.get(j).isLiving()) {
+            for (int j = 0; j < tanks.size(); j++) {
+                if (tanks.get(j).isLiving()) {
                     //如果子弹和坦克不是同一队伍才检测
-                    if (bulletList.get(i).getGroup() != tankList.get(j).getTankGroup()) {
-                        bulletList.get(i).collisionWith(tankList.get(j));
+                    if (bulletList.get(i).getGroup() != tanks.get(j).getTankGroup()) {
+                        bulletList.get(i).collisionWith(tanks.get(j));
                     }
                 }
             }
@@ -145,8 +134,8 @@ public class TankFrame extends Frame {
     }
 
     public void addEnemyTank() {
-        tankList.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,
-            TankGroup.Enemy, this));
+//        tanks.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,
+//            TankGroup.Enemy, this));
     }
 
     class MykeyListener extends KeyAdapter {

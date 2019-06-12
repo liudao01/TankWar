@@ -19,7 +19,6 @@ public class Server {
     //    通道组
     public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-
     public void serverStart()  {
         //线程池
         //bossGroup，这个线程池处理客户端的连接请求，并将accept的连接注册到subReactor的其中一个线程上；
