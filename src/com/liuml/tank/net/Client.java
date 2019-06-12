@@ -1,10 +1,7 @@
 package com.liuml.tank.net;
 
-import com.liuml.tank.Tank;
 import com.liuml.tank.TankFrame;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -16,6 +13,9 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class Client {
 
+
+    public static final Client INSTANCE = new Client();
+    private Client(){}
     private Channel sChannel;
 
 //    public static void main(String[] args) {
@@ -70,7 +70,7 @@ public class Client {
      * 发送关闭链接消息
      */
     public void closeConnect() {
-        this.sendMsg("_bye_");
+//        this.sendMsg("_bye_");
     }
 
     /**
@@ -78,10 +78,11 @@ public class Client {
      *
      * @param msg
      */
-    public void sendMsg(String msg) {
-        System.out.println("发送消息" + msg);
-        ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
-        sChannel.writeAndFlush(buf);
+    public void sendMsg(TankJoinMsg msg) {
+//        System.out.println("发送消息" + msg);
+//        ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
+//        sChannel.writeAndFlush(buf);
+        sChannel.writeAndFlush(msg);
     }
 
 }
@@ -113,15 +114,7 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
-        System.out.println("客户端接收到消息 " + tankJoinMsg.toString());
-        //如果接收到的消息的uuid 是自己发的 则不处理
-        if(tankJoinMsg.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId()) ||
-            TankFrame.INSTANCE.findByUUID(tankJoinMsg.mUUID) != null) return;
-        //获取从服务端返回的数据
-        Tank t = new Tank(tankJoinMsg);
-        TankFrame.INSTANCE.addTank(t);
-        //接收到消息后把自身的坦克状态给发送出去
-        channelHandlerContext.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getMainTank()));
+        tankJoinMsg.handler();
     }
 }
 

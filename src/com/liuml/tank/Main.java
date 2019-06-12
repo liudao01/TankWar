@@ -22,8 +22,8 @@ public class Main {
             }
         }).start();
         //连接到服务器
-        Client c = new Client();
-        c.connect();
+
+        Client.INSTANCE.connect();
     }
 
 
