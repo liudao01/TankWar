@@ -14,7 +14,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
  * @explain
  * @time 2019-06-05 15:16
  */
-public class TankMsgDecoder extends ByteToMessageDecoder {
+public class TankJoinMsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 

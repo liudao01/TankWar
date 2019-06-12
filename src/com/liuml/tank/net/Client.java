@@ -78,7 +78,7 @@ public class Client {
      *
      * @param msg
      */
-    public void sendMsg(TankJoinMsg msg) {
+    public void sendMsg(Msg msg) {
 //        System.out.println("发送消息" + msg);
 //        ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
 //        sChannel.writeAndFlush(buf);
@@ -93,8 +93,8 @@ class ClientChannelInitializer extends ChannelInitializer {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ch.pipeline()
-            .addLast(new TankMsgEncoder())//客户端加入编码器
-            .addLast(new TankMsgDecoder())//客户端加入解码器
+            .addLast(new TankJoinMsgEncoder())//客户端加入编码器
+            .addLast(new TankJoinMsgDecoder())//客户端加入解码器
             .addLast(new ClientHandler());
     }
 }

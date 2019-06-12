@@ -1,8 +1,6 @@
 package com.liuml.tank.net;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 import com.liuml.tank.Direction;
@@ -102,6 +100,37 @@ public class TankJoinMsg extends Msg{
         }
 
         return bytes;
+    }
+
+    @Override
+    public void parse(byte[] bytes) {
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));
+        try {
+            //TODO:先读TYPE信息，根据TYPE信息处理不同的消息
+            //略过消息类型
+            //dis.readInt();
+
+            this.x = dis.readInt();
+            this.y = dis.readInt();
+            this.mDirection = Direction.values()[dis.readInt()];
+            this.moving = dis.readBoolean();
+            this.mGroup = TankGroup.values()[dis.readInt()];
+            this.mUUID = new UUID(dis.readLong(), dis.readLong());
+            //this.name = dis.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                dis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public MsgType getMsgType() {
+        return MsgType.TankJoin;
     }
 
     @Override

@@ -5,8 +5,8 @@ import java.util.UUID;
 import com.liuml.tank.Direction;
 import com.liuml.tank.TankGroup;
 import com.liuml.tank.net.TankJoinMsg;
-import com.liuml.tank.net.TankMsgDecoder;
-import com.liuml.tank.net.TankMsgEncoder;
+import com.liuml.tank.net.TankJoinMsgDecoder;
+import com.liuml.tank.net.TankJoinMsgEncoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
@@ -29,7 +29,7 @@ public class TankJoinMsgCodecTest {
         UUID id = UUID.randomUUID();
         TankJoinMsg msg = new TankJoinMsg(5, 10, Direction.DOWN, true, TankGroup.Enemy, id);
         ch.pipeline()
-            .addLast(new TankMsgEncoder());
+            .addLast(new TankJoinMsgEncoder());
 
         ch.writeOutbound(msg);
 
@@ -59,7 +59,7 @@ public class TankJoinMsgCodecTest {
         UUID id = UUID.randomUUID();
         TankJoinMsg msg = new TankJoinMsg(5, 10, Direction.DOWN, true, TankGroup.Enemy, id);
         ch.pipeline()
-            .addLast(new TankMsgDecoder());
+            .addLast(new TankJoinMsgDecoder());
 
         ch.writeOutbound(msg);
 
