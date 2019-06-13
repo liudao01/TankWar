@@ -1,10 +1,7 @@
 package com.liuml.tank.net;
 
 import java.util.List;
-import java.util.UUID;
 
-import com.liuml.tank.Direction;
-import com.liuml.tank.TankGroup;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -18,16 +15,34 @@ public class TankJoinMsgDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 
-        if(in.readableBytes()<33)return;//TCP 拆包粘包问题 只有小于33才算是一个消息
+//        if(in.readableBytes()<33)return;//TCP 拆包粘包问题 只有小于33才算是一个消息
+        if (in.readableBytes() < 8) return;//数据类型 和数据长度 的int 共8字节 这两个组成字节头
         TankJoinMsg msg = new TankJoinMsg();
 
-        msg.x = in.readInt();
-        msg.y = in.readInt();
-        msg.mDirection = Direction.values()[in.readInt()];
-        msg.moving = in.readBoolean();
-        msg.mGroup = TankGroup.values()[in.readInt()];
-        msg.mUUID = new UUID(in.readLong(), in.readLong());
+        in.markReaderIndex();//标记读索引位置
 
-        out.add(msg);
+        //读取类型
+        MsgType msgType = MsgType.values()[in.readInt()];
+        int length = in.readInt();
+        //判断读取的字节数组长度 如果小于读取字节头中 数据的长度
+        if (in.readableBytes() < length) {
+            //还原读取的索引位置
+            in.resetReaderIndex();
+            return;
+        }
+        byte[] bytes = new byte[length];
+        in.readBytes(bytes);//把获取的字节数据放入bytes
+
+        switch (msgType) {
+            case TankJoin:
+                TankJoinMsg tankJoinMsg = new TankJoinMsg();
+                tankJoinMsg.parse(bytes);
+                out.add(tankJoinMsg);//out列表 加入这个消息
+                break;
+            default:
+                break;
+        }
+
+
     }
 }

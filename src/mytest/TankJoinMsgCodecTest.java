@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.liuml.tank.Direction;
 import com.liuml.tank.TankGroup;
+import com.liuml.tank.net.MsgType;
 import com.liuml.tank.net.TankJoinMsg;
 import com.liuml.tank.net.TankJoinMsgDecoder;
 import com.liuml.tank.net.TankJoinMsgEncoder;
@@ -34,6 +35,11 @@ public class TankJoinMsgCodecTest {
         ch.writeOutbound(msg);
 
         ByteBuf buf = (ByteBuf)ch.readOutbound();
+        MsgType msgType = MsgType.values()[buf.readInt()];
+        assertEquals(MsgType.TankJoin, msgType);
+
+        int length = buf.readInt();
+        assertEquals(33, length);//消息长度是否是33
 
         int x = buf.readInt();
         int y = buf.readInt();
@@ -59,12 +65,17 @@ public class TankJoinMsgCodecTest {
         UUID id = UUID.randomUUID();
         TankJoinMsg msg = new TankJoinMsg(5, 10, Direction.DOWN, true, TankGroup.Enemy, id);
         ch.pipeline()
+        //解码
             .addLast(new TankJoinMsgDecoder());
 
         ch.writeOutbound(msg);
 
         ByteBuf buf = Unpooled.buffer();
-        buf.writeBytes(msg.toBytes());
+//        buf.writeBytes(msg.toBytes());
+        buf.writeInt(MsgType.TankJoin.ordinal());
+        byte[] bytes = msg.toBytes();
+        buf.writeInt(bytes.length);
+        buf.writeBytes(bytes);
 
         ch.writeInbound(buf.duplicate());
 
