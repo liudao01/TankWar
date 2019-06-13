@@ -95,6 +95,29 @@ public class Tank {
         return living;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public boolean isMoveing() {
+        return isMoveing;
+    }
+
+    public void setLiving(boolean living) {
+        this.living = living;
+    }
 
     public void setDirection(Direction direction) {
         this.direction = direction;
@@ -186,6 +209,7 @@ public class Tank {
                     graphics.drawImage(ResourceMgr.tankRD, x, y, null);
                 }
                 break;
+
         }
 
 

@@ -135,7 +135,7 @@ public class TankJoinMsg extends Msg{
 
     @Override
     public void handle() {
-        System.out.println("客户端接收到消息 " + this.toString());
+//        System.out.println("客户端接收到消息 " + this.toString());
         //如果接收到的消息的uuid 是自己发的 则不处理
         if(this.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId()) ||
             TankFrame.INSTANCE.findByUUID(this.mUUID) != null) return;

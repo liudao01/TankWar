@@ -11,6 +11,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
+import com.liuml.tank.net.Client;
+import com.liuml.tank.net.TankStartMovingMsg;
 import com.liuml.tank.util.RandomUtil;
 
 public class TankFrame extends Frame {
@@ -195,6 +197,8 @@ public class TankFrame extends Frame {
                     break;
             }
             getDireciton();
+            //发送坦克移动的消息
+            Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
         }
 
 

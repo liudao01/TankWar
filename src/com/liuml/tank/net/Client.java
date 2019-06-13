@@ -93,15 +93,15 @@ class ClientChannelInitializer extends ChannelInitializer {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ch.pipeline()
-            .addLast(new TankJoinMsgEncoder())//客户端加入编码器
-            .addLast(new TankJoinMsgDecoder())//客户端加入解码器
+            .addLast(new MsgEncoder())//客户端加入编码器
+            .addLast(new MsgDecoder())//客户端加入解码器
             .addLast(new ClientHandler());
     }
 }
 
 //ChannelInboundHandler的一个简单实现，默认情况下不会做任何处理，
 // 只是简单的将操作通过fire*方法传递到ChannelPipeline中的下一个ChannelHandler中让链中的下一个ChannelHandler去处理。
-class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
+class ClientHandler extends SimpleChannelInboundHandler<Msg> {
 
 
     @Override
@@ -113,8 +113,8 @@ class ClientHandler extends SimpleChannelInboundHandler<TankJoinMsg> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TankJoinMsg tankJoinMsg) throws Exception {
-        tankJoinMsg.handle();
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Msg msg) throws Exception {
+        msg.handle();
     }
 }
 
