@@ -172,6 +172,7 @@ public class TankFrame extends Frame {
                     break;
             }
             getDireciton();
+
         }
 
 
@@ -197,8 +198,7 @@ public class TankFrame extends Frame {
                     break;
             }
             getDireciton();
-            //发送坦克移动的消息
-            Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
+
         }
 
 
@@ -233,7 +233,8 @@ public class TankFrame extends Frame {
             if (bR && bD) {
                 tank.setDirection(Direction.RIGHT_DOWN);
             }
-
+            //发送坦克移动的消息
+            Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
         }
 
 
