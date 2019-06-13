@@ -13,6 +13,7 @@ import java.util.*;
 
 import com.liuml.tank.net.Client;
 import com.liuml.tank.net.TankStartMovingMsg;
+import com.liuml.tank.net.TankStopMsg;
 import com.liuml.tank.util.RandomUtil;
 
 public class TankFrame extends Frame {
@@ -22,12 +23,13 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
     List<Bullet> bulletList = new ArrayList<>();
-    Map<UUID,Tank> tanks = new HashMap<>();
+    Map<UUID, Tank> tanks = new HashMap<>();
     List<Explode> explodes = new ArrayList<>();
     public static final TankFrame INSTANCE = new TankFrame();
 
     Tank tank = new Tank(RandomUtil.getRandomWidth(), RandomUtil.getRandomHeight(), Direction.DOWN,
-    TankGroup.MYTANK, this);
+        TankGroup.MYTANK, this);
+
     //主角坦克
     private TankFrame() {
 
@@ -106,13 +108,14 @@ public class TankFrame extends Frame {
      */
     public void addTank(Tank t) {
 
-        tanks.put(t.getId(),t);
+        tanks.put(t.getId(), t);
     }
 
     public Tank findByUUID(UUID id) {
 
         return tanks.get(id);
     }
+
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
@@ -206,7 +209,11 @@ public class TankFrame extends Frame {
         private void getDireciton() {
             if (!bL && !bD && !bR && !bU) {
                 tank.setMoveing(false);
+                //发送停止消息
+                System.out.println("停止");
+                Client.INSTANCE.sendMsg(new TankStopMsg(getMainTank()));
             } else {
+
                 tank.setMoveing(true);
             }
             if (bL) {
@@ -233,12 +240,17 @@ public class TankFrame extends Frame {
             if (bR && bD) {
                 tank.setDirection(Direction.RIGHT_DOWN);
             }
+            //判断如果坦克是正在移动
             //发送坦克移动的消息
-            Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
+            System.out.println("当前信息 tank.isMoveing() "+tank.isMoveing());
+            if (tank.isMoveing()) {
+                Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
+            }
         }
 
 
     }
+
     public Tank getMainTank() {
         return this.tank;
     }

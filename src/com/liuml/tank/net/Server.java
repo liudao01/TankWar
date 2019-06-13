@@ -89,33 +89,13 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("服务端接收到数据了");
-        //把接收到的消息在每个客户端都写出去
         System.out.println(msg.toString());
+        //在服务器界面UI  上展示client发来的数据
+        ServerFrame.INSTANCE.updateClientMsg(msg.toString());
+        //把接收到的消息在每个客户端都写出去
+        //下发
         Server.clients.writeAndFlush(msg);
 
-//        ByteBuf buf = null;
-//        try {
-//            TankJoinMsg tm = (TankJoinMsg)msg;
-//
-//            System.out.println(tm);
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
-       /* buf = (ByteBuf)msg;
-        byte[] bytes = new byte[buf.readableBytes()];
-        buf.getBytes(buf.readerIndex(), bytes);
-        String s = new String(bytes);
-        System.out.println("server " + s);
-        ServerFrame.INSTANCE.updateClientMsg(s);
-        if (s.equals("_bye_")) {
-            //客户端请求退出
-        ServerFrame.INSTANCE.updateServerMsg(s);
-            System.out.println("客户端请求退出");
-            Server.clients.remove(ctx.channel());
-            ctx.close();
-        } else {
-            Server.clients.writeAndFlush(buf);
-        }*/
     }
 
     /**
