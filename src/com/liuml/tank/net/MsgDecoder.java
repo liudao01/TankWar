@@ -8,7 +8,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 /**
  * @author liuml
- * @explain
+ * @explain 解码器
  * @time 2019-06-05 15:16
  */
 public class MsgDecoder extends ByteToMessageDecoder {
@@ -32,23 +32,25 @@ public class MsgDecoder extends ByteToMessageDecoder {
         byte[] bytes = new byte[length];
         in.readBytes(bytes);//把获取的字节数据放入bytes
 
-        Msg msg = null;
-        switch (msgType) {
-            case TankJoin:
-                msg = new TankJoinMsg();
-
-                break;
-            case TankStartMoving:
-                msg = new TankStartMovingMsg();
-
-                break;
-            case TankStop:
-                msg = new TankStopMsg();
-                break;
-            default:
-                break;
-
-        }
+        Msg msg =
+            (Msg)Class.forName("com.liuml.tank.net." + msgType.toString() + "Msg").getDeclaredConstructor().newInstance();
+        ;
+//        switch (msgType) {
+//            case TankJoin:
+//                msg = new TankJoinMsg();
+//
+//                break;
+//            case TankStartMoving:
+//                msg = new TankStartMovingMsg();
+//
+//                break;
+//            case TankStop:
+//                msg = new TankStopMsg();
+//                break;
+//            default:
+//                break;
+//
+//        }
         msg.parse(bytes);
         out.add(msg);//加入消息集合
 

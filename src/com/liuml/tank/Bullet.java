@@ -21,7 +21,23 @@ public class Bullet {
     private boolean living = true;//是否存活
     private TankGroup group;
     private Rectangle rect1;
-    private UUID uuid = UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
+
+    public Direction getDireciton() {
+        return direciton;
+    }
+
+    public void setDireciton(Direction direciton) {
+        this.direciton = direciton;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
         this.x = x;
