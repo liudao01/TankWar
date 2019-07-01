@@ -79,7 +79,7 @@ public class Client {
      * @param msg
      */
     public void sendMsg(Msg msg) {
-//        System.out.println("发送消息" + msg);
+        System.out.println("发送消息: " + msg);
 //        ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
 //        sChannel.writeAndFlush(buf);
         sChannel.writeAndFlush(msg);

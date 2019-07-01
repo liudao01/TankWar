@@ -133,16 +133,16 @@ public class Tank {
 
     public void paint(Graphics graphics) {
         if (!isLiving()) {
-            tankFrame.tanks.remove(this);
+//            tankFrame.tanks.remove(this.getId());
             return;
         }
         if (direction == null) return;
         //如果敌方坦克 随机发射子弹
-        if (this.tankGroup.equals(TankGroup.Enemy)) {
-            if (RandomUtil.getRandomForIntegerBounded(0, 10) > 8) {
+//        if (this.tankGroup.equals(TankGroup.Enemy)) {
+//            if (RandomUtil.getRandomForIntegerBounded(0, 10) > 8) {
 //                fire();
-            }
-        }
+//            }
+//        }
         //uuid on head
         Color c = graphics.getColor();
         graphics.setColor(Color.YELLOW);
@@ -362,4 +362,21 @@ public class Tank {
         living = false;
     }
 
+
+    @Override
+    public String toString() {
+        return "Tank{" +
+            "x=" + x +
+            ", y=" + y +
+            ", speed=" + speed +
+            ", direction=" + direction +
+            ", isMoveing=" + isMoveing +
+            ", tankFrame=" + tankFrame +
+            ", tankGroup=" + tankGroup +
+            ", living=" + living +
+            ", timer=" + timer +
+            ", rect2=" + rect2 +
+            ", id=" + id +
+            '}';
+    }
 }

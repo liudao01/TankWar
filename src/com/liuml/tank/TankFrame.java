@@ -14,6 +14,7 @@ import java.util.*;
 import com.liuml.tank.net.Client;
 import com.liuml.tank.net.TankStartMovingMsg;
 import com.liuml.tank.net.TankStopMsg;
+import com.liuml.tank.util.LogUtils;
 import com.liuml.tank.util.RandomUtil;
 
 public class TankFrame extends Frame {
@@ -27,12 +28,12 @@ public class TankFrame extends Frame {
     List<Explode> explodes = new ArrayList<>();
     public static final TankFrame INSTANCE = new TankFrame();
 
-    Tank tank = new Tank(RandomUtil.getRandomWidth(), RandomUtil.getRandomHeight(), Direction.DOWN,
-        TankGroup.MYTANK, this);
+    Tank tank;
 
     //主角坦克
     private TankFrame() {
-
+        tank = new Tank(RandomUtil.getRandomWidth(), RandomUtil.getRandomHeight(), Direction.DOWN,
+            TankGroup.MYTANK, this);
         // TODO Auto-generated constructor stub
         setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
@@ -95,7 +96,13 @@ public class TankFrame extends Frame {
             for (int i = 0; i < explodes.size(); i++) {
                 explodes.get(i).paint(graphics);
             }
-            checkCollision();
+//            checkCollision();
+            Collection<Tank> values = tanks.values();
+            for (int i = 0; i < bulletList.size(); i++) {
+                for (Tank t : values) {
+                    bulletList.get(i).collisionWith(t);
+                }
+            }
         }
 
 
@@ -107,8 +114,10 @@ public class TankFrame extends Frame {
      * @param t
      */
     public void addTank(Tank t) {
-
+        LogUtils.debug("坦克= " + t.toString());
         tanks.put(t.getId(), t);
+//        LogUtils.debug("坦克= "+t.toString());
+
     }
 
     public Tank findByUUID(UUID id) {
@@ -117,25 +126,24 @@ public class TankFrame extends Frame {
     }
 
     //碰撞检测
-    private void checkCollision() {
-        for (int i = 0; i < bulletList.size(); i++) {
-
-            for (int j = 0; j < tanks.size(); j++) {
+//    private void checkCollision() {
+//        for (int i = 0; i < bulletList.size(); i++) {
+//
+//            for (int j = 0; j < tanks.size(); j++) {
 //                System.out.println("tanks size= " + tanks.size());
 //                System.out.println("j = " + j);
 //                System.out.println("tanks.get(j) = " + tanks.get(j));
-//                System.out.println("tanks.get(j)isLiving = " + tanks.get(j).isLiving());
-                if (tanks.get(j) != null && tanks.get(j).isLiving()) {
-                    bulletList.get(i).collisionWith(tanks.get(j));
-                }
-            }
-
-            if (tank.isLiving()) {
-                bulletList.get(i).collisionWith(tank);
-            }
-
-        }
-    }
+//                if (tanks.get(j) != null && tanks.get(j).isLiving()) {
+//                    bulletList.get(i).collisionWith(tanks.get(j));
+//                }
+//            }
+//
+//            if (tank.isLiving()) {
+//                bulletList.get(i).collisionWith(tank);
+//            }
+//
+//        }
+//    }
 
     public void addEnemyTank() {
 //        tanks.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,

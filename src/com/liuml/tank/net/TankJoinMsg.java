@@ -34,7 +34,8 @@ public class TankJoinMsg extends Msg{
         this.y = mainTank.getY();
         mDirection = mainTank.getDirection();
         this.moving = mainTank.isMoveing;
-        mGroup = mainTank.getTankGroup();
+//        mGroup = mainTank.getTankGroup();
+        mGroup = TankGroup.Enemy;//通过消息加入的都是敌方坦克
         mUUID = mainTank.getId();
 
     }

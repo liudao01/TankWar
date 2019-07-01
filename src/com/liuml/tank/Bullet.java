@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.UUID;
 
+import com.liuml.tank.util.LogUtils;
+
 /**
  * 子弹类
  * Created by liuml.
@@ -153,6 +155,8 @@ public class Bullet {
         if (this.group == tank.getTankGroup()) {
             return;
         }
+        LogUtils.debug("Bullet rect1.x = "+rect1.x+" Bullet rect1.y="+rect1.y);
+        LogUtils.debug("rect2.x = "+tank.rect2.x+" rect2.y="+tank.rect2.y);
         if (rect1.intersects(tank.rect2)) {
             tankFrame.explodes.add(new Explode(tank.getX(), tank.getY(), group, tankFrame));
             tank.die();
