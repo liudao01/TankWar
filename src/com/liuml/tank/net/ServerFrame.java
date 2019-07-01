@@ -31,7 +31,6 @@ public class ServerFrame extends Frame {
             }
         });
 
-
     }
 
     public static void main(String[] args) {

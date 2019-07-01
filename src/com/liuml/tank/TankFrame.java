@@ -119,20 +119,19 @@ public class TankFrame extends Frame {
     //碰撞检测
     private void checkCollision() {
         for (int i = 0; i < bulletList.size(); i++) {
+
             for (int j = 0; j < tanks.size(); j++) {
-                if (tanks.get(j).isLiving()) {
-                    //如果子弹和坦克不是同一队伍才检测
-                    if (bulletList.get(i).getGroup() != tanks.get(j).getTankGroup()) {
-                        bulletList.get(i).collisionWith(tanks.get(j));
-                    }
+//                System.out.println("tanks size= " + tanks.size());
+//                System.out.println("j = " + j);
+//                System.out.println("tanks.get(j) = " + tanks.get(j));
+//                System.out.println("tanks.get(j)isLiving = " + tanks.get(j).isLiving());
+                if (tanks.get(j) != null && tanks.get(j).isLiving()) {
+                    bulletList.get(i).collisionWith(tanks.get(j));
                 }
             }
-            //如果子弹和坦克不是同一队伍才检测
-            if (bulletList.get(i).getGroup() != tank.getTankGroup() && tank.isLiving()) {
-                boolean b = bulletList.get(i).collisionWith(tank);
-                if (b) {
-                    tank.die();
-                }
+
+            if (tank.isLiving()) {
+                bulletList.get(i).collisionWith(tank);
             }
 
         }
@@ -242,7 +241,7 @@ public class TankFrame extends Frame {
             }
             //判断如果坦克是正在移动
             //发送坦克移动的消息
-            System.out.println("当前信息 tank.isMoveing() "+tank.isMoveing());
+            System.out.println("当前信息 tank.isMoveing() " + tank.isMoveing());
             if (tank.isMoveing()) {
                 Client.INSTANCE.sendMsg(new TankStartMovingMsg(getMainTank()));
             }

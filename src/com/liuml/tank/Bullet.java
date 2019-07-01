@@ -1,6 +1,8 @@
 package com.liuml.tank;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.UUID;
 
 /**
  * 子弹类
@@ -13,12 +15,13 @@ public class Bullet {
     private int y = 100;
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
-    private int speed = 10;//速度
+    private int speed = 6;//速度
     private Direction direciton;
     private TankFrame tankFrame;
     private boolean living = true;//是否存活
     private TankGroup group;
     private Rectangle rect1;
+    private UUID uuid = UUID.randomUUID();
 
     public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
         this.x = x;
@@ -129,16 +132,16 @@ public class Bullet {
 
 
     //碰撞检测
-    public boolean collisionWith(Tank tank) {
-
-
+    public void collisionWith(Tank tank) {
+        //如果子弹和坦克不是同一队伍才检测
+        if (this.group == tank.getTankGroup()) {
+            return;
+        }
         if (rect1.intersects(tank.rect2)) {
             tankFrame.explodes.add(new Explode(tank.getX(), tank.getY(), group, tankFrame));
             tank.die();
             this.die();
-            return true;
         }
-        return false;
     }
 
     private void die() {

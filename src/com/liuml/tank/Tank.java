@@ -21,7 +21,7 @@ public class Tank {
     private int x = 100;
     private int y = 100;
 
-    private int speed = 5;//速度
+    private int speed = 4;//速度
     private Direction direction = Direction.DOWN;//方向
     public boolean isMoveing = false;//是否移动
     private TankFrame tankFrame = null;
