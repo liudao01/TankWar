@@ -7,7 +7,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import com.liuml.tank.net.BulletNewMsg;
+import com.liuml.tank.net.Client;
 import com.liuml.tank.net.TankJoinMsg;
+import com.liuml.tank.util.LogUtils;
 import com.liuml.tank.util.RandomUtil;
 
 /**
@@ -54,12 +57,12 @@ public class Tank {
         this.tankGroup = tankType;
         this.direction = direciton;
         this.tankFrame = tankFrame;
-        if (tankGroup.equals(TankGroup.Enemy)) {
-            if (timer == null) {
-                timer = new Timer();
-            }
-            timer.schedule(new TimerTaskTest(), 1000, 2000);
-        }
+//        if (tankGroup.equals(TankGroup.Enemy)) {
+//            if (timer == null) {
+//                timer = new Timer();
+//            }
+//            timer.schedule(new TimerTaskTest(), 1000, 2000);
+//        }
         initRect();
     }
 
@@ -289,8 +292,13 @@ public class Tank {
             default:
                 break;
         }
-        tankFrame.bulletList.add(new Bullet(bX, bY, direction, tankGroup, tankFrame));
+        LogUtils.debug("发射子弹 tankGroup = "+tankGroup);
+        Bullet bullet = new Bullet(this.id,bX, bY, direction, tankGroup, tankFrame);
+        tankFrame.bulletList.add(bullet);
 
+        //发射子弹消息
+        System.out.println("发射子弹");
+        Client.INSTANCE.sendMsg(new BulletNewMsg(bullet));
     }
 
 

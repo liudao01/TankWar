@@ -24,6 +24,7 @@ public class Bullet {
     private TankGroup group;
     private Rectangle rect1;
     private UUID id = UUID.randomUUID();
+    private UUID playId;//坦克的uuid
 
     public Direction getDireciton() {
         return direciton;
@@ -31,6 +32,14 @@ public class Bullet {
 
     public void setDireciton(Direction direciton) {
         this.direciton = direciton;
+    }
+
+    public UUID getPlayId() {
+        return playId;
+    }
+
+    public void setPlayId(UUID playId) {
+        this.playId = playId;
     }
 
     public UUID getId() {
@@ -41,7 +50,8 @@ public class Bullet {
         this.id = id;
     }
 
-    public Bullet(int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
+    public Bullet(UUID playId, int x, int y, Direction direciton, TankGroup group, TankFrame tankFrame) {
+        this.playId = playId;
         this.x = x;
         this.y = y;
         this.group = group;
@@ -151,15 +161,15 @@ public class Bullet {
 
     //碰撞检测
     public void collisionWith(Tank tank) {
-        //如果子弹和坦克不是同一队伍才检测
-        if (this.group == tank.getTankGroup()) {
+        //如果子弹是不是这个坦克发射的
+        LogUtils.debug("bullet playid = " + this.playId + "\n tank.id = " + tank.id);
+        if (this.playId.equals(tank.id)) {
             return;
         }
-        LogUtils.debug("Bullet rect1.x = "+rect1.x+" Bullet rect1.y="+rect1.y);
-        LogUtils.debug("rect2.x = "+tank.rect2.x+" rect2.y="+tank.rect2.y);
         if (rect1.intersects(tank.rect2)) {
             tankFrame.explodes.add(new Explode(tank.getX(), tank.getY(), group, tankFrame));
             tank.die();
+            tankFrame.tanks.remove(tank.getId());
             this.die();
         }
     }

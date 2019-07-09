@@ -7,6 +7,7 @@ import com.liuml.tank.Bullet;
 import com.liuml.tank.Direction;
 import com.liuml.tank.TankFrame;
 import com.liuml.tank.TankGroup;
+import com.liuml.tank.util.LogUtils;
 
 import static com.liuml.tank.net.MsgType.BulletNew;
 
@@ -21,6 +22,7 @@ public class BulletNewMsg extends Msg {
     public int x, y;
     public Direction dir;
     public TankGroup group;
+
     public BulletNewMsg(Bullet bullet) {
         this.playerID = TankFrame.INSTANCE.getMainTank().getId();
         this.id = bullet.getId();
@@ -44,7 +46,13 @@ public class BulletNewMsg extends Msg {
 
     @Override
     public void handle() {
-
+        if (this.playerID.equals(TankFrame.INSTANCE.getMainTank().getId())) {
+            return;//如果是自己的坦克发射的 不添加
+        }
+        Bullet bullet = new Bullet(this.playerID, x, y, dir, group, TankFrame.INSTANCE);
+        bullet.setId(this.id);
+        LogUtils.debug("获取坦克子弹消息 : " + this.toString());
+        TankFrame.INSTANCE.addBullte(bullet);
     }
 
     @Override

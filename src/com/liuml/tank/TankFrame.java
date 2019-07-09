@@ -82,7 +82,7 @@ public class TankFrame extends Frame {
 
             graphics.setColor(Color.GREEN);
             graphics.drawString("当前子弹个数" + bulletList.size(), 20, 50);
-            graphics.drawString("按下回车添加敌方坦克-当前敌方坦克个数" + tanks.size(), 20, 70);
+            graphics.drawString("当前敌方坦克个数" + tanks.size(), 20, 70);
             graphics.drawString("爆炸集合 " + explodes.size(), 20, 90);
             graphics.setColor(color);
 
@@ -148,6 +148,10 @@ public class TankFrame extends Frame {
     public void addEnemyTank() {
 //        tanks.add(new Tank(RandomUtil.getRandomHeight(), RandomUtil.getRandomHeight(), Direction.DOWN,
 //            TankGroup.Enemy, this));
+    }
+
+    public void addBullte(Bullet bullet) {
+        bulletList.add(bullet);
     }
 
     class MykeyListener extends KeyAdapter {
