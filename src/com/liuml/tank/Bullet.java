@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.UUID;
 
-import com.liuml.tank.util.LogUtils;
+import com.liuml.tank.net.Client;
+import com.liuml.tank.net.TankDieMsg;
 
 /**
  * 子弹类
@@ -162,7 +163,7 @@ public class Bullet {
     //碰撞检测
     public void collisionWith(Tank tank) {
         //如果子弹是不是这个坦克发射的
-        LogUtils.debug("bullet playid = " + this.playId + "\n tank.id = " + tank.id);
+//        LogUtils.debug("bullet playid = " + this.playId + "\n tank.id = " + tank.id);
         if (this.playId.equals(tank.id)) {
             return;
         }
@@ -171,6 +172,7 @@ public class Bullet {
             tank.die();
             tankFrame.tanks.remove(tank.getId());
             this.die();
+            Client.INSTANCE.sendMsg(new TankDieMsg(this.id, tank.getId()));
         }
     }
 

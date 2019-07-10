@@ -120,7 +120,7 @@ public class TankFrame extends Frame {
 
     }
 
-    public Tank findByUUID(UUID id) {
+    public Tank findTankByUUID(UUID id) {
 
         return tanks.get(id);
     }

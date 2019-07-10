@@ -82,7 +82,7 @@ public class TankStartMovingMsg extends Msg {
         //如果接收到的消息的uuid 是自己发的 则不处理
         if (this.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId())) return;
 
-        Tank tank = TankFrame.INSTANCE.findByUUID(this.mUUID);//根据uuid 找到坦克
+        Tank tank = TankFrame.INSTANCE.findTankByUUID(this.mUUID);//根据uuid 找到坦克
         if (tank != null) {
             tank.setMoveing(true);
             tank.setX(this.x);

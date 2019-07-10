@@ -139,7 +139,7 @@ public class TankJoinMsg extends Msg{
 //        System.out.println("客户端接收到消息 " + this.toString());
         //如果接收到的消息的uuid 是自己发的 则不处理
         if(this.mUUID.equals(TankFrame.INSTANCE.getMainTank().getId()) ||
-            TankFrame.INSTANCE.findByUUID(this.mUUID) != null) return;
+            TankFrame.INSTANCE.findTankByUUID(this.mUUID) != null) return;
         //获取从服务端返回的数据
         Tank t = new Tank(this);
         TankFrame.INSTANCE.addTank(t);

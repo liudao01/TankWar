@@ -34,7 +34,7 @@ public class TankStopMsg extends Msg {
 
     @Override
     public void handle() {
-        Tank tank = TankFrame.INSTANCE.findByUUID(this.id);
+        Tank tank = TankFrame.INSTANCE.findTankByUUID(this.id);
         if (tank != null) {
             tank.setMoveing(false);
             tank.setX(this.x);
