@@ -11,7 +11,14 @@ TankWar
 
 [TOC]
 
+运行步骤: 
+1.  运行服务端 serverFrame
+2.  运行第一个客户端 Main 
+3.  运行第二个客户端 Main 
+
 做完的效果图
+
+
 
 
 
